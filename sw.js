@@ -1,5 +1,6 @@
-var CACHE_NAME = 'plate-hunter-v2';
-var urlsToCache = [
+const CACHE_NAME = 'plate-hunter-v5';
+
+const ASSETS = [
   './',
   './index.html',
   './manifest.json'
@@ -8,7 +9,7 @@ var urlsToCache = [
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
-      return cache.addAll(urlsToCache);
+      return cache.addAll(ASSETS);
     })
   );
   self.skipWaiting();
@@ -16,32 +17,36 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('activate', function(event) {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
+    caches.keys().then(function(keys) {
       return Promise.all(
-        cacheNames.filter(function(name) {
-          return name !== CACHE_NAME;
-        }).map(function(name) {
-          return caches.delete(name);
+        keys.filter(function(key) {
+          return key !== CACHE_NAME;
+        }).map(function(key) {
+          return caches.delete(key);
         })
       );
     })
   );
-  clients.claim();
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    fetch(event.request).then(function(response) {
-      // Cache successful GET requests
-      if (response && response.status === 200 && event.request.method === 'GET') {
-        var responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(function(cache) {
-          cache.put(event.request, responseToCache);
-        });
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
       }
-      return response;
-    }).catch(function() {
-      return caches.match(event.request);
+      return fetch(event.request).then(function(networkResponse) {
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          var responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return networkResponse;
+      }).catch(function() {
+        return caches.match('./index.html');
+      });
     })
   );
 });
