@@ -18,7 +18,9 @@
 }
 
 html, body {
-  height: 100%;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -28,225 +30,522 @@ body {
   color: #eaeaea;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+/* Screens */
+.screen {
+  display: none;
+  flex-direction: column;
+  width: 100%;
   height: 100vh;
   height: 100dvh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-/* Header */
-.header {
-  padding: 12px 16px;
+.screen.active {
+  display: flex;
+}
+
+/* ===== START SCREEN ===== */
+#startScreen {
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+
+.start-logo {
+  font-size: 48px;
+  margin-bottom: 8px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.start-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  background: linear-gradient(135deg, #7c4dff, #00e676);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.start-subtitle {
+  font-size: 14px;
+  color: #8888a8;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.start-form {
+  width: 100%;
+  max-width: 320px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  font-size: 13px;
+  color: #8888a8;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.name-input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid #2a2a4a;
+  border-radius: 14px;
+  background: rgba(22, 33, 62, 0.8);
+  color: #eaeaea;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.name-input:focus {
+  border-color: #7c4dff;
+  box-shadow: 0 0 20px rgba(124, 77, 255, 0.2);
+}
+
+.name-input::placeholder {
+  color: #555570;
+  font-weight: 400;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c4dff, #651fff);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
+  min-height: 56px;
+}
+
+.start-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(124, 77, 255, 0.3);
+}
+
+.start-stats-preview {
+  margin-top: 24px;
+  font-size: 13px;
+  color: #666688;
+  text-align: center;
+}
+
+/* ===== TRACKER SCREEN ===== */
+#trackerScreen {
   padding-top: max(12px, env(safe-area-inset-top));
-  background: #16213e;
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+.tracker-header {
+  padding: 12px 16px;
+  background: rgba(22, 33, 62, 0.9);
   border-bottom: 1px solid #2a2a4a;
   flex-shrink: 0;
+  backdrop-filter: blur(10px);
 }
 
-.progress-info {
+.header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  font-size: 14px;
-  color: #a0a0b8;
 }
 
-.progress-info .counter {
+.player-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7c4dff;
+}
+
+.found-counter {
+  font-size: 14px;
   font-weight: 700;
   color: #00e676;
-  font-size: 16px;
 }
 
 .progress-bar {
   width: 100%;
-  height: 8px;
+  height: 6px;
   background: #2a2a4a;
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00d4ff, #00e676);
-  border-radius: 4px;
+  background: linear-gradient(90deg, #7c4dff, #00e676);
+  border-radius: 3px;
   transition: width 0.3s ease;
 }
 
-/* Search */
-.search-section {
-  padding: 10px 16px;
-  background: #1a1a2e;
+/* Search area */
+.search-area {
+  padding: 16px;
   flex-shrink: 0;
 }
 
 .search-row {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .search-input {
   flex: 1;
-  padding: 14px 16px;
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: 4px;
+  padding: 16px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 6px;
   border: 2px solid #2a2a4a;
-  border-radius: 12px;
-  background: #16213e;
+  border-radius: 14px;
+  background: rgba(22, 33, 62, 0.8);
   color: #eaeaea;
   text-align: center;
   font-variant-numeric: tabular-nums;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 60px;
 }
 
 .search-input:focus {
-  border-color: #00d4ff;
+  border-color: #7c4dff;
+  box-shadow: 0 0 20px rgba(124, 77, 255, 0.2);
 }
 
 .search-input::placeholder {
   color: #555570;
   font-weight: 400;
-  letter-spacing: 1px;
-  font-size: 14px;
+  letter-spacing: 2px;
+  font-size: 16px;
 }
 
-.search-btn {
-  padding: 14px 20px;
+.mark-btn {
+  padding: 16px 24px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   border: none;
-  border-radius: 12px;
-  background: #00e676;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00e676, #00c853);
   color: #1a1a2e;
   cursor: pointer;
-  min-width: 60px;
+  min-height: 60px;
+  min-width: 80px;
+  transition: transform 0.15s;
 }
 
-.search-btn:active {
+.mark-btn:active {
   transform: scale(0.95);
-  background: #00c853;
 }
 
-/* Section label */
-.section-label {
-  padding: 6px 16px;
-  font-size: 12px;
-  color: #666688;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+/* Hundreds grid */
+.hundreds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 0 16px;
   flex-shrink: 0;
 }
 
-/* Grid */
-.grid-container {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 12px 16px 12px;
-  -webkit-overflow-scrolling: touch;
+.hundred-cell {
+  background: rgba(22, 33, 62, 0.7);
+  border: 1px solid #2a2a4a;
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  transition: border-color 0.2s;
 }
 
-.grid-section {
-  margin-bottom: 16px;
+.hundred-cell.complete {
+  border-color: #00e676;
+  background: rgba(0, 77, 64, 0.3);
 }
 
-.grid-section-title {
+.hundred-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8888a8;
+  margin-bottom: 4px;
+}
+
+.hundred-count {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hundred-count.done {
+  color: #00e676;
+}
+
+.hundred-count.partial {
+  color: #7c4dff;
+}
+
+.hundred-bar {
+  width: 100%;
+  height: 3px;
+  background: #2a2a4a;
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.hundred-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7c4dff, #00e676);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Days counter */
+.days-info {
+  text-align: center;
+  padding: 10px 16px;
   font-size: 13px;
   color: #8888a8;
-  padding: 8px 4px;
+  flex-shrink: 0;
+}
+
+.days-info span {
+  color: #7c4dff;
   font-weight: 600;
-  position: sticky;
-  top: 0;
-  background: #1a1a2e;
-  z-index: 2;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-}
-
-.cell {
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  border-radius: 8px;
-  background: #2a2a4a;
-  color: #555570;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  min-height: 48px;
-}
-
-.cell:active {
-  transform: scale(0.92);
-}
-
-.cell.found {
-  background: #004d40;
-  color: #00e676;
-  box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
-}
-
-.cell.highlight {
-  animation: pulse 0.6s ease;
-  border: 2px solid #00d4ff;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.15); }
-  100% { transform: scale(1); }
 }
 
 /* Footer */
-.footer {
-  padding: 10px 16px;
-  padding-bottom: max(10px, env(safe-area-inset-bottom));
-  background: #16213e;
+.tracker-footer {
+  padding: 12px 16px;
+  background: rgba(22, 33, 62, 0.9);
   border-top: 1px solid #2a2a4a;
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-shrink: 0;
+  backdrop-filter: blur(10px);
+  margin-top: auto;
 }
 
-.reset-btn {
+.finish-btn {
   flex: 1;
   padding: 14px;
   font-size: 15px;
   font-weight: 600;
-  border: 2px solid #ff1744;
+  border: 2px solid #7c4dff;
   border-radius: 12px;
   background: transparent;
-  color: #ff1744;
+  color: #7c4dff;
   cursor: pointer;
+  min-height: 48px;
+  transition: background 0.15s;
 }
 
-.reset-btn:active {
-  background: #4a0000;
-  transform: scale(0.97);
+.finish-btn:active {
+  background: rgba(124, 77, 255, 0.15);
 }
 
-.jump-btn {
-  padding: 14px 16px;
+.stats-btn {
+  padding: 14px 18px;
   font-size: 15px;
   font-weight: 600;
   border: 2px solid #2a2a4a;
   border-radius: 12px;
-  background: #1a1a2e;
-  color: #a0a0b8;
+  background: transparent;
+  color: #8888a8;
   cursor: pointer;
+  min-height: 48px;
+  transition: background 0.15s;
 }
 
-.jump-btn:active {
+.stats-btn:active {
   background: #2a2a4a;
 }
 
-/* Confirm modal */
+/* ===== STATS SCREEN ===== */
+#statsScreen {
+  padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom)) 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-card {
+  width: 100%;
+  max-width: 340px;
+  background: rgba(22, 33, 62, 0.8);
+  border: 1px solid #2a2a4a;
+  border-radius: 20px;
+  padding: 28px 24px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.stats-title {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #7c4dff, #00e676);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #2a2a4a;
+}
+
+.stat-row:last-of-type {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #8888a8;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #eaeaea;
+  text-align: right;
+}
+
+.stat-value.highlight {
+  color: #00e676;
+}
+
+.stat-value.accent {
+  color: #7c4dff;
+}
+
+.big-stat {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.big-stat-number {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #7c4dff, #00e676);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.big-stat-label {
+  font-size: 13px;
+  color: #8888a8;
+  margin-top: 4px;
+}
+
+.stats-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.new-hunt-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c4dff, #651fff);
+  color: white;
+  cursor: pointer;
+  min-height: 52px;
+  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3);
+  transition: transform 0.15s;
+}
+
+.new-hunt-btn:active {
+  transform: scale(0.97);
+}
+
+.back-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 2px solid #2a2a4a;
+  border-radius: 12px;
+  background: transparent;
+  color: #8888a8;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background 0.15s;
+}
+
+.back-btn:active {
+  background: #2a2a4a;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(0, 77, 64, 0.95);
+  color: #00e676;
+  padding: 14px 28px;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 300;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.already {
+  background: rgba(74, 58, 0, 0.95);
+  color: #ffd600;
+}
+
+.toast.error {
+  background: rgba(74, 0, 0, 0.95);
+  color: #ff5252;
+}
+
+/* Modal */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -258,6 +557,8 @@ body {
   z-index: 200;
   align-items: center;
   justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(5px);
 }
 
 .modal-overlay.show {
@@ -266,39 +567,53 @@ body {
 
 .modal {
   background: #16213e;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 20px;
+  padding: 28px 24px;
   text-align: center;
   max-width: 320px;
-  width: 90%;
+  width: 100%;
   border: 1px solid #2a2a4a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .modal h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
+  font-size: 20px;
+  margin-bottom: 10px;
   color: #eaeaea;
 }
 
 .modal p {
   font-size: 14px;
   color: #a0a0b8;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  line-height: 1.4;
 }
 
 .modal-buttons {
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
 .modal-btn {
   flex: 1;
-  padding: 12px;
+  padding: 14px;
   font-size: 15px;
   font-weight: 600;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
+  min-height: 48px;
+  transition: transform 0.15s;
+}
+
+.modal-btn:active {
+  transform: scale(0.96);
 }
 
 .modal-btn.cancel {
@@ -307,134 +622,180 @@ body {
 }
 
 .modal-btn.confirm {
+  background: linear-gradient(135deg, #7c4dff, #651fff);
+  color: white;
+}
+
+.modal-btn.danger {
   background: #ff1744;
   color: white;
 }
 
-.modal-btn:active {
-  transform: scale(0.96);
+/* Animations */
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/* Quick jump modal */
-.jump-modal .jump-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 16px;
+.pop-in {
+  animation: popIn 0.3s ease;
 }
 
-.jump-grid button {
-  padding: 14px;
-  font-size: 14px;
-  font-weight: 600;
-  border: 2px solid #2a2a4a;
-  border-radius: 10px;
-  background: #1a1a2e;
-  color: #a0a0b8;
-  cursor: pointer;
-}
-
-.jump-grid button:active {
-  background: #2a2a4a;
-  transform: scale(0.95);
-}
-
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: #004d40;
-  color: #00e676;
-  padding: 12px 24px;
-  border-radius: 24px;
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 300;
-  opacity: 0;
-  transition: all 0.3s ease;
-  pointer-events: none;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.toast.already {
-  background: #4a3a00;
-  color: #ffd600;
-}
-
-/* Responsive */
-@media (min-width: 400px) {
-  .grid {
-    grid-template-columns: repeat(6, 1fr);
+/* Responsive adjustments */
+@media (max-height: 700px) {
+  .hundreds-grid {
+    gap: 6px;
+    padding: 0 12px;
+  }
+  .hundred-cell {
+    padding: 6px 4px;
+  }
+  .hundred-count {
+    font-size: 17px;
+  }
+  .hundred-label {
+    font-size: 10px;
+  }
+  .search-input {
+    font-size: 24px;
+    padding: 14px;
+    min-height: 54px;
+  }
+  .mark-btn {
+    min-height: 54px;
+    padding: 14px 20px;
+  }
+  .search-area {
+    padding: 12px 16px;
+  }
+  .days-info {
+    padding: 6px 16px;
   }
 }
 
-@media (min-width: 500px) {
-  .grid {
-    grid-template-columns: repeat(8, 1fr);
+@media (max-height: 600px) {
+  .hundred-cell {
+    padding: 4px 3px;
+  }
+  .hundred-count {
+    font-size: 15px;
+  }
+  .hundred-label {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+  .hundred-bar {
+    margin-top: 2px;
+  }
+  .search-input {
+    font-size: 22px;
+    padding: 12px;
+    min-height: 48px;
+  }
+  .mark-btn {
+    min-height: 48px;
+    padding: 12px 18px;
+  }
+  .tracker-header {
+    padding: 8px 12px;
+  }
+  .search-area {
+    padding: 8px 12px;
+  }
+  .days-info {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+  .tracker-footer {
+    padding: 8px 12px;
   }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  <div class="progress-info">
-    <span>Найдено: <span class="counter" id="foundCounter">0 / 999</span></span>
-    <span id="percentText">0%</span>
+<!-- START SCREEN -->
+<div class="screen active" id="startScreen">
+  <div class="start-logo">🚗</div>
+  <div class="start-title">Plate Hunter</div>
+  <div class="start-subtitle">Отмечай встречные номера в пути</div>
+  
+  <div class="start-form">
+    <div class="input-group">
+      <label>Имя игрока</label>
+      <input type="text" class="name-input" id="nameInput" placeholder="Как тебя зовут?" maxlength="20" autocomplete="off">
+    </div>
+    <button class="start-btn" id="startBtn">Начать охоту</button>
   </div>
-  <div class="progress-bar">
-    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-  </div>
+  
+  <div class="start-stats-preview" id="startStatsPreview"></div>
 </div>
 
-<!-- Search -->
-<div class="search-section">
-  <div class="search-row">
-    <input type="text" class="search-input" id="searchInput" placeholder="Введи номер..." maxlength="3" inputmode="numeric" pattern="[0-9]*">
-    <button class="search-btn" id="searchBtn">✓</button>
-  </div>
-</div>
-
-<!-- Section label -->
-<div class="section-label" id="sectionLabel">Все номера</div>
-
-<!-- Grid -->
-<div class="grid-container" id="gridContainer">
-  <!-- Dynamically filled -->
-</div>
-
-<!-- Footer -->
-<div class="footer">
-  <button class="jump-btn" id="jumpBtn">⬆ К сотне</button>
-  <button class="reset-btn" id="resetBtn">Сброс</button>
-</div>
-
-<!-- Reset confirm modal -->
-<div class="modal-overlay" id="resetModal">
-  <div class="modal">
-    <h3>Начать новую охоту?</h3>
-    <p>Весь прогресс будет удалён. Это действие нельзя отменить.</p>
-    <div class="modal-buttons">
-      <button class="modal-btn cancel" id="cancelReset">Отмена</button>
-      <button class="modal-btn confirm" id="confirmReset">Сбросить</button>
+<!-- TRACKER SCREEN -->
+<div class="screen" id="trackerScreen">
+  <div class="tracker-header">
+    <div class="header-top">
+      <span class="player-name" id="displayPlayerName">Игрок</span>
+      <span class="found-counter" id="foundCounter">0 / 999</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
     </div>
   </div>
+  
+  <div class="search-area">
+    <div class="search-row">
+      <input type="text" class="search-input" id="searchInput" placeholder="Номер" maxlength="3" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
+      <button class="mark-btn" id="markBtn">✓</button>
+    </div>
+  </div>
+  
+  <div class="hundreds-grid" id="hundredsGrid"></div>
+  
+  <div class="days-info" id="daysInfo">В охоте: <span id="daysCount">0</span> дн.</div>
+  
+  <div class="tracker-footer">
+    <button class="stats-btn" id="statsBtn">📊</button>
+    <button class="finish-btn" id="finishBtn">Завершить охоту</button>
+  </div>
 </div>
 
-<!-- Jump modal -->
-<div class="modal-overlay jump-modal" id="jumpModal">
-  <div class="modal">
-    <h3>Перейти к сотне</h3>
-    <div class="jump-grid" id="jumpGrid"></div>
-    <div class="modal-buttons" style="margin-top: 16px;">
-      <button class="modal-btn cancel" id="cancelJump">Закрыть</button>
+<!-- STATS SCREEN -->
+<div class="screen" id="statsScreen">
+  <div class="stats-card">
+    <div class="stats-title">Статистика</div>
+    
+    <div class="stat-row">
+      <span class="stat-label">Игрок</span>
+      <span class="stat-value accent" id="statPlayerName">—</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Начало охоты</span>
+      <span class="stat-value" id="statStartTime">—</span>
+    </div>
+    <div class="stat-row" id="statEndRow" style="display:none;">
+      <span class="stat-label">Конец охоты</span>
+      <span class="stat-value" id="statEndTime">—</span>
+    </div>
+    <div class="stat-row" id="statDurationRow" style="display:none;">
+      <span class="stat-label">Длительность</span>
+      <span class="stat-value" id="statDuration">—</span>
+    </div>
+    
+    <div class="big-stat">
+      <div class="big-stat-number" id="statFoundBig">0/999</div>
+      <div class="big-stat-label" id="statPercentBig">0%</div>
+    </div>
+    
+    <div class="stat-row">
+      <span class="stat-label">Найдено</span>
+      <span class="stat-value highlight" id="statFoundText">0 номеров</span>
+    </div>
+    
+    <div class="stats-actions">
+      <button class="new-hunt-btn" id="newHuntBtn">Новая охота</button>
+      <button class="back-btn" id="backToTrackerBtn" style="display:none;">← Назад к трекеру</button>
     </div>
   </div>
 </div>
@@ -442,70 +803,109 @@ body {
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Confirm Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">Подтверждение</h3>
+    <p id="confirmText">Вы уверены?</p>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" id="confirmCancel">Отмена</button>
+      <button class="modal-btn confirm" id="confirmOk">OK</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function() {
   "use strict";
 
-  // State
+  // ===== STATE =====
+  var playerName = "";
+  var startTime = null;
+  var endTime = null;
   var foundNumbers = {};
   var totalPlates = 999;
-  var debounceTimer = null;
-  var lastTapTime = 0;
-  var lastTapTarget = null;
+  var currentScreen = "start";
+  var daysTimer = null;
 
-  // DOM
+  // ===== DOM =====
+  var startScreen = document.getElementById("startScreen");
+  var trackerScreen = document.getElementById("trackerScreen");
+  var statsScreen = document.getElementById("statsScreen");
+  var nameInput = document.getElementById("nameInput");
+  var startBtn = document.getElementById("startBtn");
+  var startStatsPreview = document.getElementById("startStatsPreview");
+  var displayPlayerName = document.getElementById("displayPlayerName");
   var foundCounterEl = document.getElementById("foundCounter");
-  var percentTextEl = document.getElementById("percentText");
   var progressFillEl = document.getElementById("progressFill");
   var searchInput = document.getElementById("searchInput");
-  var searchBtn = document.getElementById("searchBtn");
-  var gridContainer = document.getElementById("gridContainer");
-  var sectionLabel = document.getElementById("sectionLabel");
-  var resetBtn = document.getElementById("resetBtn");
-  var resetModal = document.getElementById("resetModal");
-  var confirmReset = document.getElementById("confirmReset");
-  var cancelReset = document.getElementById("cancelReset");
-  var jumpBtn = document.getElementById("jumpBtn");
-  var jumpModal = document.getElementById("jumpModal");
-  var jumpGrid = document.getElementById("jumpGrid");
-  var cancelJump = document.getElementById("cancelJump");
+  var markBtn = document.getElementById("markBtn");
+  var hundredsGrid = document.getElementById("hundredsGrid");
+  var daysCountEl = document.getElementById("daysCount");
+  var finishBtn = document.getElementById("finishBtn");
+  var statsBtn = document.getElementById("statsBtn");
+  var statPlayerName = document.getElementById("statPlayerName");
+  var statStartTime = document.getElementById("statStartTime");
+  var statEndTime = document.getElementById("statEndTime");
+  var statEndRow = document.getElementById("statEndRow");
+  var statDuration = document.getElementById("statDuration");
+  var statDurationRow = document.getElementById("statDurationRow");
+  var statFoundBig = document.getElementById("statFoundBig");
+  var statPercentBig = document.getElementById("statPercentBig");
+  var statFoundText = document.getElementById("statFoundText");
+  var newHuntBtn = document.getElementById("newHuntBtn");
+  var backToTrackerBtn = document.getElementById("backToTrackerBtn");
   var toast = document.getElementById("toast");
+  var confirmModal = document.getElementById("confirmModal");
+  var confirmTitle = document.getElementById("confirmTitle");
+  var confirmText = document.getElementById("confirmText");
+  var confirmCancel = document.getElementById("confirmCancel");
+  var confirmOk = document.getElementById("confirmOk");
 
-  // Debounce helper
-  function debounce(fn, delay) {
-    return function() {
-      var args = arguments;
-      var ctx = this;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(function() { fn.apply(ctx, args); }, delay);
-    };
-  }
-
-  // Load from localStorage
+  // ===== STORAGE =====
   function loadState() {
-    var saved = localStorage.getItem("plateHunterFound");
-    if (saved) {
+    var savedName = localStorage.getItem("plateHunterName");
+    if (savedName) playerName = savedName;
+    
+    var savedStart = localStorage.getItem("plateHunterStartTime");
+    if (savedStart) startTime = parseInt(savedStart, 10);
+    
+    var savedEnd = localStorage.getItem("plateHunterEndTime");
+    if (savedEnd && savedEnd !== "null") endTime = parseInt(savedEnd, 10);
+    
+    var savedFound = localStorage.getItem("plateHunterFound");
+    if (savedFound) {
       try {
-        foundNumbers = JSON.parse(saved) || {};
+        var arr = JSON.parse(savedFound);
+        if (Array.isArray(arr)) {
+          for (var i = 0; i < arr.length; i++) {
+            foundNumbers[arr[i]] = true;
+          }
+        }
       } catch(e) {
         foundNumbers = {};
       }
     }
   }
 
-  // Save to localStorage
   function saveState() {
-    localStorage.setItem("plateHunterFound", JSON.stringify(foundNumbers));
+    localStorage.setItem("plateHunterName", playerName);
+    localStorage.setItem("plateHunterStartTime", startTime ? String(startTime) : "");
+    localStorage.setItem("plateHunterEndTime", endTime ? String(endTime) : "null");
+    var arr = [];
+    for (var key in foundNumbers) {
+      if (foundNumbers[key]) arr.push(parseInt(key, 10));
+    }
+    localStorage.setItem("plateHunterFound", JSON.stringify(arr));
   }
 
-  // Format number
+  // ===== HELPERS =====
   function fmt(n) {
     if (n < 10) return "00" + n;
     if (n < 100) return "0" + n;
     return "" + n;
   }
 
-  // Count found
   function countFound() {
     var count = 0;
     for (var key in foundNumbers) {
@@ -514,252 +914,301 @@ body {
     return count;
   }
 
-  // Update progress UI
-  function updateProgress() {
-    var count = countFound();
-    var pct = Math.round((count / totalPlates) * 100);
-    foundCounterEl.textContent = count + " / " + totalPlates;
-    percentTextEl.textContent = pct + "%";
-    progressFillEl.style.width = pct + "%";
+  function formatDate(ts) {
+    if (!ts) return "—";
+    var d = new Date(ts);
+    var day = fmt(d.getDate());
+    var month = fmt(d.getMonth() + 1);
+    var year = d.getFullYear();
+    var hours = fmt(d.getHours());
+    var mins = fmt(d.getMinutes());
+    return day + "." + month + "." + year + " " + hours + ":" + mins;
   }
 
-  // Show toast
-  function showToast(text, isAlready) {
-    toast.textContent = text;
-    toast.className = "toast show" + (isAlready ? " already" : "");
-    setTimeout(function() {
-      toast.className = "toast" + (isAlready ? " already" : "");
-    }, 1500);
-  }
-
-  // Toggle number found
-  function toggleNumber(num) {
-    var key = fmt(num);
-    var cell = document.getElementById("cell-" + key);
-    if (foundNumbers[num]) {
-      // Unmark
-      foundNumbers[num] = false;
-      delete foundNumbers[num];
-      if (cell) cell.classList.remove("found");
-      showToast(key + " — убрано", true);
-    } else {
-      // Mark
-      foundNumbers[num] = true;
-      if (cell) cell.classList.add("found");
-      showToast("✓ " + key + " найден!", false);
+  function formatDuration(ms) {
+    if (!ms || ms < 0) return "—";
+    var seconds = Math.floor(ms / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    var days = Math.floor(hours / 24);
+    
+    if (days > 0) {
+      var remHours = hours % 24;
+      return days + " дн. " + remHours + " ч.";
     }
-    saveState();
-    updateProgress();
+    if (hours > 0) {
+      var remMins = minutes % 60;
+      return hours + " ч. " + remMins + " мин.";
+    }
+    if (minutes > 0) return minutes + " мин.";
+    return seconds + " сек.";
   }
 
-  // Debounced toggle (prevent double-tap)
-  var debouncedToggle = debounce(function(num) {
-    toggleNumber(num);
-  }, 150);
+  function showToast(text, type) {
+    toast.textContent = text;
+    toast.className = "toast show";
+    if (type === "already") toast.className = "toast show already";
+    else if (type === "error") toast.className = "toast show error";
+    setTimeout(function() {
+      toast.className = "toast";
+    }, 1800);
+  }
 
-  // Handle cell tap
-  function handleCellTap(num) {
-    var now = Date.now();
-    var key = fmt(num);
-    // Double-tap within 300ms = unmark
-    if (now - lastTapTime < 300 && lastTapTarget === key) {
-      clearTimeout(debounceTimer);
-      lastTapTime = 0;
-      lastTapTarget = null;
-      // Directly unmark
-      foundNumbers[num] = false;
-      delete foundNumbers[num];
-      var cell = document.getElementById("cell-" + key);
-      if (cell) cell.classList.remove("found");
-      saveState();
-      updateProgress();
-      showToast(key + " — убрано", true);
+  // ===== SCREENS =====
+  function showScreen(name) {
+    currentScreen = name;
+    startScreen.classList.remove("active");
+    trackerScreen.classList.remove("active");
+    statsScreen.classList.remove("active");
+    
+    if (name === "start") startScreen.classList.add("active");
+    else if (name === "tracker") {
+      trackerScreen.classList.add("active");
+      updateTrackerUI();
+      focusSearch();
+    }
+    else if (name === "stats") {
+      statsScreen.classList.add("active");
+      updateStatsUI();
+    }
+  }
+
+  function focusSearch() {
+    setTimeout(function() {
+      searchInput.focus();
+    }, 100);
+  }
+
+  // ===== TRACKER UI =====
+  function updateTrackerUI() {
+    var count = countFound();
+    var pct = ((count / totalPlates) * 100).toFixed(1);
+    foundCounterEl.textContent = count + " / " + totalPlates;
+    progressFillEl.style.width = pct + "%";
+    displayPlayerName.textContent = playerName || "Игрок";
+    updateHundredsGrid();
+    updateDays();
+  }
+
+  function updateHundredsGrid() {
+    var html = "";
+    var ranges = [
+      { label: "001-099", start: 1, end: 99 },
+      { label: "100-199", start: 100, end: 199 },
+      { label: "200-299", start: 200, end: 299 },
+      { label: "300-399", start: 300, end: 399 },
+      { label: "400-499", start: 400, end: 499 },
+      { label: "500-599", start: 500, end: 599 },
+      { label: "600-699", start: 600, end: 699 },
+      { label: "700-799", start: 700, end: 799 },
+      { label: "800-899", start: 800, end: 899 }
+    ];
+    
+    for (var i = 0; i < ranges.length; i++) {
+      var r = ranges[i];
+      var found = 0;
+      var total = r.end - r.start + 1;
+      for (var n = r.start; n <= r.end; n++) {
+        if (foundNumbers[n]) found++;
+      }
+      var pct = (found / total) * 100;
+      var countClass = found === total ? "done" : (found > 0 ? "partial" : "");
+      var cellClass = found === total ? "complete" : "";
+      
+      html += '<div class="hundred-cell ' + cellClass + '">';
+      html += '<div class="hundred-label">' + r.label + '</div>';
+      html += '<div class="hundred-count ' + countClass + '">' + found + '<span style="font-size:11px;color:#555570;">/' + total + '</span></div>';
+      html += '<div class="hundred-bar"><div class="hundred-bar-fill" style="width:' + pct + '%"></div></div>';
+      html += '</div>';
+    }
+    
+    hundredsGrid.innerHTML = html;
+  }
+
+  function updateDays() {
+    if (!startTime) {
+      daysCountEl.textContent = "0";
       return;
     }
-    lastTapTime = now;
-    lastTapTarget = key;
-    debouncedToggle(num);
-  }
-
-  // Render grid
-  function renderGrid() {
-    gridContainer.innerHTML = "";
-    var sections = [
-      { start: 1, end: 99, label: "001 — 099" },
-      { start: 100, end: 199, label: "100 — 199" },
-      { start: 200, end: 299, label: "200 — 299" },
-      { start: 300, end: 399, label: "300 — 399" },
-      { start: 400, end: 499, label: "400 — 499" },
-      { start: 500, end: 599, label: "500 — 599" },
-      { start: 600, end: 699, label: "600 — 699" },
-      { start: 700, end: 799, label: "700 — 799" },
-      { start: 800, end: 899, label: "800 — 899" },
-      { start: 900, end: 999, label: "900 — 999" }
-    ];
-
-    for (var s = 0; s < sections.length; s++) {
-      var section = sections[s];
-      var sectionEl = document.createElement("div");
-      sectionEl.className = "grid-section";
-
-      var titleEl = document.createElement("div");
-      titleEl.className = "grid-section-title";
-      titleEl.textContent = section.label;
-      sectionEl.appendChild(titleEl);
-
-      var gridEl = document.createElement("div");
-      gridEl.className = "grid";
-
-      for (var i = section.start; i <= section.end; i++) {
-        var cell = document.createElement("div");
-        cell.className = "cell";
-        cell.id = "cell-" + fmt(i);
-        cell.textContent = fmt(i);
-        cell.dataset.num = i;
-
-        if (foundNumbers[i]) {
-          cell.classList.add("found");
-        }
-
-        (function(num) {
-          cell.addEventListener("click", function(e) {
-            e.preventDefault();
-            handleCellTap(num);
-          });
-        })(i);
-
-        gridEl.appendChild(cell);
-      }
-
-      sectionEl.appendChild(gridEl);
-      gridContainer.appendChild(sectionEl);
+    var now = endTime || Date.now();
+    var diff = now - startTime;
+    var days = Math.max(0, diff / (1000 * 60 * 60 * 24));
+    if (days < 1) {
+      daysCountEl.textContent = "<1";
+    } else {
+      daysCountEl.textContent = Math.floor(days);
     }
   }
 
-  // Search handler
-  function doSearch() {
+  // ===== STATS UI =====
+  function updateStatsUI() {
+    var count = countFound();
+    var pct = ((count / totalPlates) * 100).toFixed(1);
+    
+    statPlayerName.textContent = playerName || "—";
+    statStartTime.textContent = formatDate(startTime);
+    
+    if (endTime) {
+      statEndRow.style.display = "";
+      statDurationRow.style.display = "";
+      statEndTime.textContent = formatDate(endTime);
+      statDuration.textContent = formatDuration(endTime - startTime);
+      backToTrackerBtn.style.display = "none";
+    } else {
+      statEndRow.style.display = "none";
+      statDurationRow.style.display = "none";
+      backToTrackerBtn.style.display = "";
+    }
+    
+    statFoundBig.innerHTML = count + '<span style="font-size:24px;color:#555570;">/' + totalPlates + '</span>';
+    statPercentBig.textContent = pct + "% найдено";
+    statFoundText.textContent = count + " номеров";
+  }
+
+  // ===== MARK NUMBER =====
+  function markNumber() {
     var val = searchInput.value.trim();
     if (val.length === 0) return;
-
+    
     var num = parseInt(val, 10);
     if (isNaN(num) || num < 1 || num > 999) {
-      showToast("Номер от 001 до 999", true);
+      showToast("Номер от 001 до 999", "error");
       return;
     }
-
-    // Mark as found
+    
     var key = fmt(num);
     var wasFound = !!foundNumbers[num];
-    foundNumbers[num] = true;
-    saveState();
-    updateProgress();
-
-    // Scroll to cell
-    var cell = document.getElementById("cell-" + key);
-    if (cell) {
-      cell.classList.add("found");
-      cell.classList.add("highlight");
-      cell.scrollIntoView({ behavior: "smooth", block: "center" });
-      setTimeout(function() { cell.classList.remove("highlight"); }, 800);
-    }
-
+    
     if (wasFound) {
-      showToast(key + " уже найден", true);
+      showToast(key + " уже найден", "already");
     } else {
-      showToast("✓ " + key + " найден!", false);
+      foundNumbers[num] = true;
+      saveState();
+      updateTrackerUI();
+      showToast("✓ " + key + " найден!", "");
+      
+      // Check if all found
+      if (countFound() === totalPlates) {
+        setTimeout(function() {
+          showToast("🎉 Все 999 номеров найдены!", "");
+        }, 500);
+      }
     }
-
+    
     searchInput.value = "";
-    searchInput.blur();
+    searchInput.focus();
   }
 
-  // Debounced search
-  var debouncedSearch = debounce(doSearch, 200);
+  // ===== CONFIRM MODAL =====
+  var confirmCallback = null;
+  function showConfirm(title, text, cb, btnClass) {
+    confirmTitle.textContent = title;
+    confirmText.textContent = text;
+    confirmOk.className = "modal-btn " + (btnClass || "confirm");
+    confirmCallback = cb;
+    confirmModal.classList.add("show");
+  }
+  
+  function hideConfirm() {
+    confirmModal.classList.remove("show");
+    confirmCallback = null;
+  }
 
-  // Search events
-  searchBtn.addEventListener("click", function(e) {
+  confirmCancel.addEventListener("click", hideConfirm);
+  confirmOk.addEventListener("click", function() {
+    if (confirmCallback) confirmCallback();
+    hideConfirm();
+  });
+  confirmModal.addEventListener("click", function(e) {
+    if (e.target === confirmModal) hideConfirm();
+  });
+
+  // ===== EVENTS =====
+  startBtn.addEventListener("click", function() {
+    var name = nameInput.value.trim();
+    if (!name) {
+      showToast("Введи имя", "error");
+      return;
+    }
+    
+    playerName = name;
+    
+    // Set startTime only if not already set
+    if (!startTime) {
+      startTime = Date.now();
+      endTime = null;
+    }
+    
+    saveState();
+    showScreen("tracker");
+  });
+
+  markBtn.addEventListener("click", function(e) {
     e.preventDefault();
-    doSearch();
+    markNumber();
   });
 
   searchInput.addEventListener("input", function() {
     var val = searchInput.value.replace(/[^0-9]/g, "");
     searchInput.value = val;
     if (val.length === 3) {
-      debouncedSearch();
+      markNumber();
     }
   });
 
   searchInput.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       e.preventDefault();
-      doSearch();
+      markNumber();
     }
   });
 
-  // Reset
-  resetBtn.addEventListener("click", function() {
-    resetModal.classList.add("show");
+  finishBtn.addEventListener("click", function() {
+    showConfirm("Завершить охоту?", "Охота будет завершена и зафиксировано время. Продолжить?", function() {
+      endTime = Date.now();
+      saveState();
+      showScreen("stats");
+    }, "confirm");
   });
 
-  cancelReset.addEventListener("click", function() {
-    resetModal.classList.remove("show");
+  statsBtn.addEventListener("click", function() {
+    showScreen("stats");
   });
 
-  confirmReset.addEventListener("click", function() {
-    foundNumbers = {};
-    saveState();
-    updateProgress();
-    renderGrid();
-    resetModal.classList.remove("show");
-    showToast("Прогресс сброшен", true);
+  newHuntBtn.addEventListener("click", function() {
+    showConfirm("Новая охота?", "Весь прогресс будет удалён. Это действие нельзя отменить.", function() {
+      playerName = "";
+      startTime = null;
+      endTime = null;
+      foundNumbers = {};
+      localStorage.removeItem("plateHunterName");
+      localStorage.removeItem("plateHunterStartTime");
+      localStorage.removeItem("plateHunterEndTime");
+      localStorage.removeItem("plateHunterFound");
+      nameInput.value = "";
+      searchInput.value = "";
+      updateStartPreview();
+      showScreen("start");
+    }, "danger");
   });
 
-  // Jump to hundred
-  jumpBtn.addEventListener("click", function() {
-    jumpGrid.innerHTML = "";
-    var hundreds = [
-      { label: "001-099", start: 1 },
-      { label: "100-199", start: 100 },
-      { label: "200-299", start: 200 },
-      { label: "300-399", start: 300 },
-      { label: "400-499", start: 400 },
-      { label: "500-599", start: 500 },
-      { label: "600-699", start: 600 },
-      { label: "700-799", start: 700 },
-      { label: "800-899", start: 800 },
-      { label: "900-999", start: 900 }
-    ];
-    for (var i = 0; i < hundreds.length; i++) {
-      (function(h) {
-        var btn = document.createElement("button");
-        btn.textContent = h.label;
-        btn.addEventListener("click", function() {
-          var cell = document.getElementById("cell-" + fmt(h.start));
-          if (cell) {
-            cell.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-          jumpModal.classList.remove("show");
-        });
-        jumpGrid.appendChild(btn);
-      })(hundreds[i]);
+  backToTrackerBtn.addEventListener("click", function() {
+    showScreen("tracker");
+  });
+
+  // ===== START SCREEN PREVIEW =====
+  function updateStartPreview() {
+    if (startTime && Object.keys(foundNumbers).length > 0) {
+      var count = countFound();
+      var days = Math.max(0, (Date.now() - startTime) / (1000 * 60 * 60 * 24));
+      var daysText = days < 1 ? "менее дня" : Math.floor(days) + " дн.";
+      startStatsPreview.innerHTML = "Найдено: " + count + " | В охоте: " + daysText;
+    } else {
+      startStatsPreview.innerHTML = "";
     }
-    jumpModal.classList.add("show");
-  });
+  }
 
-  cancelJump.addEventListener("click", function() {
-    jumpModal.classList.remove("show");
-  });
-
-  // Close modals on overlay click
-  resetModal.addEventListener("click", function(e) {
-    if (e.target === resetModal) resetModal.classList.remove("show");
-  });
-  jumpModal.addEventListener("click", function(e) {
-    if (e.target === jumpModal) jumpModal.classList.remove("show");
-  });
-
-  // Register Service Worker
+  // ===== SERVICE WORKER =====
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
       navigator.serviceWorker.register("./sw.js").catch(function(err) {
@@ -768,10 +1217,34 @@ body {
     });
   }
 
-  // Init
+  // ===== INIT =====
   loadState();
-  updateProgress();
-  renderGrid();
+  
+  // Pre-fill name if exists
+  if (playerName) {
+    nameInput.value = playerName;
+    startBtn.textContent = "Продолжить";
+  }
+  
+  updateStartPreview();
+  
+  // Determine initial screen
+  if (playerName && startTime) {
+    if (endTime) {
+      showScreen("stats");
+    } else {
+      showScreen("tracker");
+    }
+  } else {
+    showScreen("start");
+  }
+  
+  // Days timer
+  daysTimer = setInterval(function() {
+    if (currentScreen === "tracker") {
+      updateDays();
+    }
+  }, 60000);
 
 })();
 </script>
