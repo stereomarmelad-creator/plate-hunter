@@ -239,6 +239,7 @@ html, body {
 }
 
 /* === GRID VIEW === */
+/* Grid view - scrollable */
 .grid-view {
   display: none;
   flex-direction: column;
@@ -250,14 +251,58 @@ html, body {
   display: flex;
 }
 
-.grid-hundreds {
+.grid-full {
   flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   padding: 8px;
-  overflow: hidden;
+}
+
+.grid-hundred-section {
+  margin-bottom: 12px;
+}
+
+.grid-hundred-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #a855f7;
+  padding: 4px 8px;
+  background: rgba(168, 85, 247, 0.1);
+  border-radius: 6px;
+  margin-bottom: 4px;
+  position: sticky;
+  top: 0;
+}
+
+.grid-numbers {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 3px;
+}
+
+.grid-num {
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  padding: 6px 2px;
+  border-radius: 4px;
+  background: rgba(42, 42, 74, 0.6);
+  color: #8888aa;
+  cursor: pointer;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.grid-num.found {
+  background: #22c55e;
+  color: #fff;
+}
+
+.grid-num:active {
+  transform: scale(0.9);
 }
 
 .hundred-block {
@@ -488,16 +533,7 @@ html, body {
 
   <!-- Grid view -->
   <div class="grid-view" id="grid-view">
-    <div class="grid-hundreds" id="grid-hundreds"></div>
-
-    <div class="number-detail" id="number-detail">
-      <div class="detail-header">
-        <button class="detail-back-btn" onclick="closeDetail()">← Назад</button>
-        <h3 id="detail-title">001–099</h3>
-        <div style="width:60px"></div>
-      </div>
-      <div class="detail-grid" id="detail-grid"></div>
-    </div>
+    <div class="grid-full" id="grid-full"></div>
   </div>
 
   <!-- Bottom bar -->
@@ -598,10 +634,7 @@ function resetDisplay() {
 
 function pressKey(digit) {
   var el = document.getElementById('display-digits');
-  var current = el.textContent;
-  if (current === '___') {
-    current = '';
-  }
+  var current = el.textContent.replace(/_/g, '');
   if (current.length >= 3) return;
   current += digit;
   el.textContent = current.padEnd(3, '_');
@@ -614,8 +647,8 @@ function pressKey(digit) {
 
 function pressBackspace() {
   var el = document.getElementById('display-digits');
-  var current = el.textContent;
-  if (current === '___') return;
+  var current = el.textContent.replace(/_/g, '');
+  if (current.length === 0) return;
   current = current.slice(0, -1);
   el.textContent = current.padEnd(3, '_');
 }
@@ -663,17 +696,57 @@ function updateCounter() {
 // === GRID VIEW ===
 function showGrid() {
   STATE.currentView = 'grid';
-  document.getElementById('keyboard-view').classList.remove('active');
-  document.getElementById('grid-view').classList.add('active');
-  renderGridHundreds();
+  var kv = document.getElementById('keyboard-view');
+  var gv = document.getElementById('grid-view');
+  kv.style.display = 'none';
+  kv.classList.remove('active');
+  gv.style.display = 'flex';
+  gv.classList.add('active');
+  renderFullGrid();
 }
 
 function showKeyboard() {
   STATE.currentView = 'keyboard';
-  document.getElementById('grid-view').classList.remove('active');
-  document.getElementById('keyboard-view').classList.add('active');
-  document.getElementById('number-detail').classList.remove('active');
-  document.getElementById('grid-hundreds').style.display = 'grid';
+  var gv = document.getElementById('grid-view');
+  var kv = document.getElementById('keyboard-view');
+  gv.style.display = 'none';
+  gv.classList.remove('active');
+  kv.style.display = 'flex';
+  kv.classList.add('active');
+  resetDisplay();
+}
+
+function renderFullGrid() {
+  var container = document.getElementById('grid-full');
+  container.innerHTML = '';
+  for (var h = 0; h < 10; h++) {
+    var hundred = document.createElement('div');
+    hundred.className = 'grid-hundred-section';
+    var header = document.createElement('div');
+    header.className = 'grid-hundred-header';
+    var start = h * 100;
+    var end = h * 100 + 99;
+    if (start === 0) start = 1;
+    header.textContent = pad3(start) + ' – ' + pad3(end);
+    hundred.appendChild(header);
+
+    var nums = document.createElement('div');
+    nums.className = 'grid-numbers';
+    for (var n = start; n <= end; n++) {
+      var cell = document.createElement('div');
+      cell.className = 'grid-num';
+      if (STATE.found.indexOf(n) !== -1) {
+        cell.className += ' found';
+      }
+      cell.textContent = pad3(n);
+      cell.onclick = (function(num, el) {
+        return function() { toggleNumber(num, el); };
+      })(n, cell);
+      nums.appendChild(cell);
+    }
+    hundred.appendChild(nums);
+    container.appendChild(hundred);
+  }
 }
 
 function renderGridHundreds() {
@@ -749,19 +822,14 @@ function toggleNumber(num, el) {
   var idx = STATE.found.indexOf(num);
   if (idx === -1) {
     STATE.found.push(num);
-    el.className = 'detail-cell found just-marked';
+    el.className = 'grid-num found';
     updateCounter();
-    // Update hundred progress
-    if (STATE.currentView === 'grid' && STATE.currentHundred !== null) {
-      setTimeout(function() { renderGridHundreds(); }, 400);
-    }
+    showToast('✓ ' + pad3(num));
   } else {
     STATE.found.splice(idx, 1);
-    el.className = 'detail-cell just-removed';
+    el.className = 'grid-num';
     updateCounter();
-    if (STATE.currentView === 'grid' && STATE.currentHundred !== null) {
-      setTimeout(function() { renderGridHundreds(); }, 400);
-    }
+    showToast('✕ ' + pad3(num));
   }
 }
 
