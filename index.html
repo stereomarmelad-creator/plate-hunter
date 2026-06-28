@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1a1a2e">
+<title>Охота за автономерами</title>
+<link rel="manifest" href="manifest.json">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #1a1a2e;
+  color: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.game-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Header stats */
+.stats-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+  color: #a0a0b8;
+  padding: 0 4px;
+}
+
+.stats-bar span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lives {
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+/* Target number display */
+.target-section {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.target-label {
+  font-size: 14px;
+  color: #a0a0b8;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+}
+
+.target-number {
+  font-size: 80px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  color: #00d4ff;
+  text-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Answer buttons */
+.answers {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.answer-btn {
+  width: 100%;
+  padding: 22px 16px;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  border: 2px solid #2a2a4a;
+  border-radius: 16px;
+  background: #16213e;
+  color: #eaeaea;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-variant-numeric: tabular-nums;
+}
+
+.answer-btn:active {
+  transform: scale(0.97);
+  background: #1a2a4e;
+}
+
+.answer-btn.correct {
+  border-color: #00e676;
+  background: #004d40;
+  color: #00e676;
+}
+
+.answer-btn.wrong {
+  border-color: #ff1744;
+  background: #4a0000;
+  color: #ff1744;
+}
+
+/* Game over overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 30, 0.95);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 100;
+}
+
+.overlay.show {
+  display: flex;
+}
+
+.overlay h2 {
+  font-size: 32px;
+  color: #ff1744;
+}
+
+.overlay .score-text {
+  font-size: 18px;
+  color: #a0a0b8;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.overlay .score-text big {
+  font-size: 48px;
+  color: #00d4ff;
+  font-weight: 700;
+}
+
+.restart-btn {
+  margin-top: 20px;
+  padding: 16px 48px;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  background: #00d4ff;
+  color: #1a1a2e;
+  cursor: pointer;
+}
+
+.restart-btn:active {
+  transform: scale(0.96);
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #2a2a4a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #00e676);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Responsive */
+@media (max-height: 700px) {
+  .target-number { font-size: 60px; }
+  .answer-btn { padding: 16px; font-size: 30px; }
+  .game-container { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="game-container">
+  <div class="stats-bar">
+    <span class="lives" id="livesDisplay">&#10084;&#10084;&#10084;</span>
+    <span id="timerDisplay">00:00</span>
+  </div>
+
+  <div class="stats-bar">
+    <span>Найдено: <strong id="foundCount">0</strong>/999</span>
+    <span>Точность: <strong id="accuracy">100%</strong></span>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+  </div>
+
+  <div class="target-section">
+    <div class="target-label">Ищем номер</div>
+    <div class="target-number" id="targetNumber">001</div>
+  </div>
+
+  <div class="answers" id="answersContainer">
+    <button class="answer-btn" id="btn0"></button>
+    <button class="answer-btn" id="btn1"></button>
+    <button class="answer-btn" id="btn2"></button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <h2>Игра окончена</h2>
+  <div class="score-text">
+    Найдено номеров:<br>
+    <big id="finalScore">0</big><br>
+    Точность: <span id="finalAccuracy">0%</span><br>
+    Время: <span id="finalTime">00:00</span>
+  </div>
+  <button class="restart-btn" id="restartBtn">Играть снова</button>
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  // Game state
+  var currentTarget = 1;
+  var lives = 3;
+  var found = 0;
+  var totalAttempts = 0;
+  var correctAttempts = 0;
+  var startTime = Date.now();
+  var timerInterval = null;
+  var gameActive = true;
+
+  // DOM elements
+  var targetEl = document.getElementById("targetNumber");
+  var livesEl = document.getElementById("livesDisplay");
+  var timerEl = document.getElementById("timerDisplay");
+  var foundEl = document.getElementById("foundCount");
+  var accuracyEl = document.getElementById("accuracy");
+  var progressEl = document.getElementById("progressFill");
+  var overlayEl = document.getElementById("overlay");
+  var finalScoreEl = document.getElementById("finalScore");
+  var finalAccEl = document.getElementById("finalAccuracy");
+  var finalTimeEl = document.getElementById("finalTime");
+  var restartBtn = document.getElementById("restartBtn");
+  var btn0 = document.getElementById("btn0");
+  var btn1 = document.getElementById("btn1");
+  var btn2 = document.getElementById("btn2");
+
+  // Load saved progress
+  function loadProgress() {
+    var saved = localStorage.getItem("plateHunterProgress");
+    if (saved) {
+      try {
+        var data = JSON.parse(saved);
+        currentTarget = data.currentTarget || 1;
+        found = data.found || 0;
+        totalAttempts = data.totalAttempts || 0;
+        correctAttempts = data.correctAttempts || 0;
+      } catch(e) {}
+    }
+  }
+
+  // Save progress
+  function saveProgress() {
+    var data = {
+      currentTarget: currentTarget,
+      found: found,
+      totalAttempts: totalAttempts,
+      correctAttempts: correctAttempts
+    };
+    localStorage.setItem("plateHunterProgress", JSON.stringify(data));
+  }
+
+  // Format number as 3-digit string
+  function fmt(n) {
+    if (n < 10) return "00" + n;
+    if (n < 100) return "0" + n;
+    return "" + n;
+  }
+
+  // Generate wrong answer that looks plausible
+  function generateDistractor(target, existing) {
+    var distractor;
+    var attempts = 0;
+    do {
+      var variation = Math.floor(Math.random() * 6) - 3; // -3 to +2
+      distractor = target + variation;
+      if (distractor < 1) distractor = target + 3;
+      if (distractor > 999) distractor = target - 3;
+      attempts++;
+    } while ((distractor === target || distractor === existing) && attempts < 20);
+    return distractor;
+  }
+
+  // Generate answer options
+  function generateOptions() {
+    var correct = currentTarget;
+    var opt1 = generateDistractor(correct, -1);
+    var opt2 = generateDistractor(correct, opt1);
+
+    var options = [correct, opt1, opt2];
+    // Shuffle
+    var i = options.length, j, temp;
+    while (--i > 0) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = options[i];
+      options[i] = options[j];
+      options[j] = temp;
+    }
+    return options;
+  }
+
+  // Update UI
+  function updateUI() {
+    targetEl.textContent = fmt(currentTarget);
+    foundEl.textContent = found;
+    var acc = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 100;
+    accuracyEl.textContent = acc + "%";
+    progressEl.style.width = (found / 999 * 100) + "%";
+
+    // Lives display
+    var hearts = "";
+    for (var i = 0; i < 3; i++) {
+      hearts += i < lives ? "❤" : "🖤";
+    }
+    livesEl.textContent = hearts;
+  }
+
+  // Render answer buttons
+  function renderRound() {
+    var options = generateOptions();
+    var buttons = [btn0, btn1, btn2];
+    for (var i = 0; i < 3; i++) {
+      buttons[i].textContent = fmt(options[i]);
+      buttons[i].dataset.value = options[i];
+      buttons[i].className = "answer-btn";
+    }
+    updateUI();
+  }
+
+  // Handle answer
+  function handleAnswer(btn) {
+    if (!gameActive) return;
+    var value = parseInt(btn.dataset.value, 10);
+    totalAttempts++;
+
+    var buttons = [btn0, btn1, btn2];
+    if (value === currentTarget) {
+      // Correct
+      correctAttempts++;
+      found++;
+      btn.classList.add("correct");
+      currentTarget++;
+      if (currentTarget > 999) {
+        // Won the game!
+        gameWin();
+        return;
+      }
+      saveProgress();
+      setTimeout(function() { renderRound(); }, 300);
+    } else {
+      // Wrong
+      lives--;
+      btn.classList.add("wrong");
+      // Highlight correct answer
+      for (var i = 0; i < 3; i++) {
+        if (parseInt(buttons[i].dataset.value, 10) === currentTarget) {
+          buttons[i].classList.add("correct");
+        }
+      }
+      saveProgress();
+      if (lives <= 0) {
+        setTimeout(function() { gameOver(); }, 800);
+      } else {
+        setTimeout(function() { renderRound(); }, 800);
+      }
+    }
+    updateUI();
+  }
+
+  // Timer
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(function() {
+      if (!gameActive) return;
+      var elapsed = Math.floor((Date.now() - startTime) / 1000);
+      var mins = Math.floor(elapsed / 60);
+      var secs = elapsed % 60;
+      timerEl.textContent = (mins < 10 ? "0" : "") + mins + ":" + (secs < 10 ? "0" : "") + secs;
+    }, 1000);
+  }
+
+  // Game over
+  function gameOver() {
+    gameActive = false;
+    clearInterval(timerInterval);
+    var acc = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 0;
+    finalScoreEl.textContent = found;
+    finalAccEl.textContent = acc + "%";
+    finalTimeEl.textContent = timerEl.textContent;
+    overlayEl.classList.add("show");
+    localStorage.removeItem("plateHunterProgress");
+  }
+
+  // Game win
+  function gameWin() {
+    gameActive = false;
+    clearInterval(timerInterval);
+    var acc = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 100;
+    finalScoreEl.textContent = found;
+    finalAccEl.textContent = acc + "%";
+    finalTimeEl.textContent = timerEl.textContent;
+    overlayEl.querySelector("h2").textContent = "🎉 Все номера найдены!";
+    overlayEl.querySelector("h2").style.color = "#00e676";
+    overlayEl.classList.add("show");
+    localStorage.removeItem("plateHunterProgress");
+  }
+
+  // Restart
+  function restart() {
+    currentTarget = 1;
+    lives = 3;
+    found = 0;
+    totalAttempts = 0;
+    correctAttempts = 0;
+    startTime = Date.now();
+    gameActive = true;
+    overlayEl.classList.remove("show");
+    overlayEl.querySelector("h2").textContent = "Игра окончена";
+    overlayEl.querySelector("h2").style.color = "#ff1744";
+    saveProgress();
+    startTimer();
+    renderRound();
+  }
+
+  // Event listeners
+  btn0.addEventListener("click", function() { handleAnswer(btn0); });
+  btn1.addEventListener("click", function() { handleAnswer(btn1); });
+  btn2.addEventListener("click", function() { handleAnswer(btn2); });
+  restartBtn.addEventListener("click", restart);
+
+  // Register service worker for PWA
+  if ("serviceWorker" in navigator) {
+    // Inline service worker via blob
+    var swCode = "self.addEventListener('install', e => self.skipWaiting()); self.addEventListener('activate', e => e.waitUntil(clients.claim())); self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));";
+    var blob = new Blob([swCode], {type: "application/javascript"});
+    var swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(function() {});
+  }
+
+  // Init
+  loadProgress();
+  updateUI();
+  startTimer();
+  renderRound();
+
+})();
+</script>
+</body>
+</html>
