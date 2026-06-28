@@ -17,8 +17,7 @@
   user-select: none;
 }
 
-html, body {
-  width: 100%;
+html {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
@@ -30,504 +29,599 @@ body {
   color: #eaeaea;
   display: flex;
   flex-direction: column;
-  position: relative;
-}
-
-/* Screens */
-.screen {
-  display: none;
-  flex-direction: column;
-  width: 100%;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
 }
 
-.screen.active {
-  display: flex;
-}
-
-/* ===== START SCREEN ===== */
-#startScreen {
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  padding-top: max(24px, env(safe-area-inset-top));
-  padding-bottom: max(24px, env(safe-area-inset-bottom));
-}
-
-.start-logo {
-  font-size: 48px;
-  margin-bottom: 8px;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.start-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  background: linear-gradient(135deg, #7c4dff, #00e676);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.start-subtitle {
-  font-size: 14px;
-  color: #8888a8;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.start-form {
-  width: 100%;
-  max-width: 320px;
-}
-
-.input-group {
-  margin-bottom: 20px;
-}
-
-.input-group label {
-  display: block;
-  font-size: 13px;
-  color: #8888a8;
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.name-input {
-  width: 100%;
-  padding: 16px 20px;
-  font-size: 20px;
-  font-weight: 600;
-  border: 2px solid #2a2a4a;
-  border-radius: 14px;
-  background: rgba(22, 33, 62, 0.8);
-  color: #eaeaea;
-  text-align: center;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(10px);
-}
-
-.name-input:focus {
-  border-color: #7c4dff;
-  box-shadow: 0 0 20px rgba(124, 77, 255, 0.2);
-}
-
-.name-input::placeholder {
-  color: #555570;
-  font-weight: 400;
-}
-
-.start-btn {
-  width: 100%;
-  padding: 18px;
-  font-size: 18px;
-  font-weight: 700;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #7c4dff, #651fff);
-  color: white;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.4);
-  min-height: 56px;
-}
-
-.start-btn:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 10px rgba(124, 77, 255, 0.3);
-}
-
-.start-stats-preview {
-  margin-top: 24px;
-  font-size: 13px;
-  color: #666688;
-  text-align: center;
-}
-
-/* ===== TRACKER SCREEN ===== */
-#trackerScreen {
-  padding-top: max(12px, env(safe-area-inset-top));
-  padding-bottom: max(12px, env(safe-area-inset-bottom));
-}
-
-.tracker-header {
-  padding: 12px 16px;
-  background: rgba(22, 33, 62, 0.9);
-  border-bottom: 1px solid #2a2a4a;
+/* === HEADER (~60px) === */
+.header {
+  padding: 8px 12px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  background: rgba(22, 33, 62, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
   flex-shrink: 0;
-  backdrop-filter: blur(10px);
+  min-height: 58px;
+  z-index: 10;
 }
 
-.header-top {
+.header-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 6px;
 }
 
-.player-name {
-  font-size: 14px;
+.game-selector {
+  flex: 1;
+  background: rgba(42, 42, 74, 0.7);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #eaeaea;
+  padding: 6px 10px;
+  font-size: 13px;
   font-weight: 600;
-  color: #7c4dff;
+  border-radius: 8px;
+  outline: none;
+  cursor: pointer;
+  min-width: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23a855f7' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 26px;
 }
 
-.found-counter {
-  font-size: 14px;
+.game-selector option {
+  background: #16213e;
+  color: #eaeaea;
+}
+
+.new-game-btn {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 700;
-  color: #00e676;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.progress-bar {
-  width: 100%;
+.new-game-btn:active {
+  transform: scale(0.94);
+}
+
+.header-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.progress-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #22c55e;
+  white-space: nowrap;
+}
+
+.progress-bar-mini {
+  flex: 1;
   height: 6px;
   background: #2a2a4a;
   border-radius: 3px;
   overflow: hidden;
 }
 
-.progress-fill {
+.progress-bar-mini-fill {
   height: 100%;
-  background: linear-gradient(90deg, #7c4dff, #00e676);
+  background: linear-gradient(90deg, #a855f7, #22c55e);
   border-radius: 3px;
   transition: width 0.3s ease;
 }
 
-/* Search area */
-.search-area {
-  padding: 16px;
-  flex-shrink: 0;
-}
-
-.search-row {
-  display: flex;
-  gap: 10px;
-}
-
-.search-input {
+/* === MAIN CONTENT AREA === */
+.main-area {
   flex: 1;
-  padding: 16px;
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 6px;
-  border: 2px solid #2a2a4a;
-  border-radius: 14px;
-  background: rgba(22, 33, 62, 0.8);
-  color: #eaeaea;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
 }
 
-.search-input:focus {
-  border-color: #7c4dff;
-  box-shadow: 0 0 20px rgba(124, 77, 255, 0.2);
-}
-
-.search-input::placeholder {
-  color: #555570;
-  font-weight: 400;
-  letter-spacing: 2px;
-  font-size: 16px;
-}
-
-.mark-btn {
-  padding: 16px 24px;
-  font-size: 16px;
-  font-weight: 700;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #00e676, #00c853);
-  color: #1a1a2e;
-  cursor: pointer;
-  min-height: 60px;
-  min-width: 80px;
-  transition: transform 0.15s;
-}
-
-.mark-btn:active {
-  transform: scale(0.95);
-}
-
-/* Hundreds grid */
-.hundreds-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  padding: 0 16px;
-  flex-shrink: 0;
-}
-
-.hundred-cell {
-  background: rgba(22, 33, 62, 0.7);
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  padding: 8px 6px;
-  text-align: center;
-  backdrop-filter: blur(5px);
-  transition: border-color 0.2s;
-}
-
-.hundred-cell.complete {
-  border-color: #00e676;
-  background: rgba(0, 77, 64, 0.3);
-}
-
-.hundred-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #8888a8;
-  margin-bottom: 4px;
-}
-
-.hundred-count {
-  font-size: 20px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.hundred-count.done {
-  color: #00e676;
-}
-
-.hundred-count.partial {
-  color: #7c4dff;
-}
-
-.hundred-bar {
-  width: 100%;
-  height: 3px;
-  background: #2a2a4a;
-  border-radius: 2px;
-  margin-top: 4px;
+/* === VIEW STATES === */
+.view {
+  display: none;
+  flex: 1;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.hundred-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #7c4dff, #00e676);
-  border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-/* Days counter */
-.days-info {
-  text-align: center;
-  padding: 10px 16px;
-  font-size: 13px;
-  color: #8888a8;
-  flex-shrink: 0;
-}
-
-.days-info span {
-  color: #7c4dff;
-  font-weight: 600;
-}
-
-/* Footer */
-.tracker-footer {
-  padding: 12px 16px;
-  background: rgba(22, 33, 62, 0.9);
-  border-top: 1px solid #2a2a4a;
+.view.active {
   display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-  backdrop-filter: blur(10px);
-  margin-top: auto;
 }
 
-.finish-btn {
+/* === GRID VIEW (Mode 1) === */
+.grid-hundreds {
   flex: 1;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 2px solid #7c4dff;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.block {
+  background: rgba(22, 33, 62, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 12px;
-  background: transparent;
-  color: #7c4dff;
-  cursor: pointer;
-  min-height: 48px;
-  transition: background 0.15s;
-}
-
-.finish-btn:active {
-  background: rgba(124, 77, 255, 0.15);
-}
-
-.stats-btn {
-  padding: 14px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  border: 2px solid #2a2a4a;
-  border-radius: 12px;
-  background: transparent;
-  color: #8888a8;
-  cursor: pointer;
-  min-height: 48px;
-  transition: background 0.15s;
-}
-
-.stats-btn:active {
-  background: #2a2a4a;
-}
-
-/* ===== STATS SCREEN ===== */
-#statsScreen {
-  padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom)) 24px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-height: 0;
+}
+
+.block:active {
+  transform: scale(0.95);
+  border-color: rgba(168, 85, 247, 0.6);
+}
+
+.block-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #a0a0b8;
+  margin-bottom: 4px;
+}
+
+.block-progress {
+  font-size: 16px;
+  font-weight: 800;
+  color: #a855f7;
+}
+
+.block-progress.complete {
+  color: #22c55e;
+}
+
+/* Number grid (expanded) */
+.number-grid-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.number-grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  flex-shrink: 0;
+  background: rgba(22, 33, 62, 0.5);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.number-grid-header h3 {
+  font-size: 14px;
+  color: #a0a0b8;
+  font-weight: 600;
+}
+
+.back-btn {
+  background: rgba(42, 42, 74, 0.7);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #a855f7;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.number-grid-inner {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  padding: 10px;
+  overflow: hidden;
+  align-content: start;
+}
+
+.num-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+  background: #2a2a4a;
+  color: #555570;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  min-height: 0;
+}
+
+.num-cell:active {
+  transform: scale(0.9);
+}
+
+.num-cell.found {
+  background: rgba(34, 197, 94, 0.25);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.num-cell.just-marked {
+  animation: popIn 0.35s ease;
+}
+
+.num-cell.just-removed {
+  animation: popOut 0.35s ease;
+}
+
+@keyframes popIn {
+  0% { transform: scale(1); background: #2a2a4a; }
+  50% { transform: scale(1.3); background: rgba(34, 197, 94, 0.5); }
+  100% { transform: scale(1); }
+}
+
+@keyframes popOut {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); background: rgba(239, 68, 68, 0.5); }
+  100% { transform: scale(1); }
+}
+
+/* === KEYPAD VIEW (Mode 2) === */
+.keypad-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.keypad-display {
+  background: rgba(22, 33, 62, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.keypad-display-text {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: 12px;
+  color: #eaeaea;
+  font-variant-numeric: tabular-nums;
+  min-height: 56px;
+}
+
+.keypad-display-text.flash-green {
+  animation: flashGreen 0.5s ease;
+  color: #22c55e;
+}
+
+.keypad-display-text.flash-red {
+  animation: flashRed 0.5s ease;
+  color: #ef4444;
+}
+
+@keyframes flashGreen {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); text-shadow: 0 0 20px #22c55e; }
+}
+
+@keyframes flashRed {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); text-shadow: 0 0 20px #ef4444; }
+}
+
+.keypad-display-hint {
+  font-size: 11px;
+  color: #666688;
+  margin-top: 2px;
+}
+
+.keypad-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.keypad-row {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.keypad-btn {
+  flex: 1;
+  background: rgba(42, 42, 74, 0.8);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 10px;
+  color: #eaeaea;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  transition: all 0.1s ease;
+}
+
+.keypad-btn:active {
+  transform: scale(0.93);
+  background: rgba(168, 85, 247, 0.3);
+}
+
+.keypad-btn.submit-btn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #fff;
+  font-size: 15px;
+  border: none;
+}
+
+.keypad-btn.backspace-btn {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  font-size: 20px;
+}
+
+/* === STATS VIEW === */
+.stats-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
 }
 
 .stats-card {
-  width: 100%;
-  max-width: 340px;
-  background: rgba(22, 33, 62, 0.8);
-  border: 1px solid #2a2a4a;
-  border-radius: 20px;
-  padding: 28px 24px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  background: rgba(22, 33, 62, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .stats-title {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 800;
+  color: #a855f7;
+  margin-bottom: 16px;
   text-align: center;
-  margin-bottom: 24px;
-  background: linear-gradient(135deg, #7c4dff, #00e676);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.stat-row {
+.stats-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 1px solid #2a2a4a;
+  border-bottom: 1px solid rgba(42, 42, 74, 0.6);
 }
 
-.stat-row:last-of-type {
+.stats-row:last-of-type {
   border-bottom: none;
 }
 
-.stat-label {
+.stats-label {
   font-size: 13px;
   color: #8888a8;
 }
 
-.stat-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: #eaeaea;
-  text-align: right;
-}
-
-.stat-value.highlight {
-  color: #00e676;
-}
-
-.stat-value.accent {
-  color: #7c4dff;
-}
-
-.big-stat {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.big-stat-number {
-  font-size: 48px;
-  font-weight: 800;
-  background: linear-gradient(135deg, #7c4dff, #00e676);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.big-stat-label {
-  font-size: 13px;
-  color: #8888a8;
-  margin-top: 4px;
-}
-
-.stats-actions {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.new-hunt-btn {
-  width: 100%;
-  padding: 16px;
-  font-size: 16px;
+.stats-value {
+  font-size: 15px;
   font-weight: 700;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #7c4dff, #651fff);
-  color: white;
-  cursor: pointer;
-  min-height: 52px;
-  box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3);
-  transition: transform 0.15s;
+  color: #eaeaea;
 }
 
-.new-hunt-btn:active {
-  transform: scale(0.97);
-}
-
-.back-btn {
+.stats-action-btn {
+  display: block;
   width: 100%;
   padding: 14px;
   font-size: 15px;
-  font-weight: 600;
-  border: 2px solid #2a2a4a;
+  font-weight: 700;
+  border: none;
   border-radius: 12px;
-  background: transparent;
-  color: #8888a8;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  color: #fff;
   cursor: pointer;
-  min-height: 48px;
-  transition: background 0.15s;
+  margin-top: 20px;
 }
 
-.back-btn:active {
+.stats-action-btn:active {
+  transform: scale(0.97);
+}
+
+/* === LEADERS VIEW === */
+.leaders-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.leaders-header {
+  padding: 12px 16px;
+  background: rgba(22, 33, 62, 0.6);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+  flex-shrink: 0;
+}
+
+.leaders-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: #a855f7;
+}
+
+.leaders-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.leader-row {
+  background: rgba(22, 33, 62, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+}
+
+.leader-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #eaeaea;
+  margin-bottom: 6px;
+}
+
+.leader-bar-bg {
+  width: 100%;
+  height: 6px;
   background: #2a2a4a;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
 }
 
-/* Toast */
+.leader-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #a855f7, #22c55e);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.leader-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #666688;
+}
+
+.leader-status {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.leader-status.active {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.leader-status.done {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+}
+
+/* === BOTTOM PANEL (~50px) === */
+.bottom-panel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  padding-bottom: max(6px, env(safe-area-inset-bottom));
+  background: rgba(22, 33, 62, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(168, 85, 247, 0.2);
+  flex-shrink: 0;
+  min-height: 48px;
+}
+
+.bottom-btn {
+  flex: 1;
+  background: rgba(42, 42, 74, 0.7);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 10px;
+  color: #a0a0b8;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 4px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 40px;
+  justify-content: center;
+}
+
+.bottom-btn:active {
+  transform: scale(0.94);
+  background: rgba(168, 85, 247, 0.3);
+}
+
+.bottom-btn.active {
+  background: rgba(168, 85, 247, 0.3);
+  border-color: rgba(168, 85, 247, 0.6);
+  color: #a855f7;
+}
+
+.bottom-btn-icon {
+  font-size: 16px;
+}
+
+.bottom-btn.danger-btn {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.bottom-btn.danger-btn:active {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* === TOAST === */
 .toast {
   position: fixed;
-  bottom: 100px;
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: rgba(0, 77, 64, 0.95);
-  color: #00e676;
-  padding: 14px 28px;
+  background: rgba(22, 33, 62, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  color: #22c55e;
+  padding: 10px 20px;
   border-radius: 24px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  z-index: 300;
+  z-index: 500;
   opacity: 0;
   transition: all 0.3s ease;
   pointer-events: none;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  max-width: 90vw;
 }
 
 .toast.show {
@@ -536,16 +630,16 @@ body {
 }
 
 .toast.already {
-  background: rgba(74, 58, 0, 0.95);
-  color: #ffd600;
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #ef4444;
 }
 
-.toast.error {
-  background: rgba(74, 0, 0, 0.95);
-  color: #ff5252;
+.toast.info {
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #a855f7;
 }
 
-/* Modal */
+/* === MODALS === */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -553,12 +647,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 10, 30, 0.9);
-  z-index: 200;
+  background: rgba(10, 10, 30, 0.85);
+  z-index: 400;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  backdrop-filter: blur(5px);
+  flex-direction: column;
 }
 
 .modal-overlay.show {
@@ -566,54 +659,66 @@ body {
 }
 
 .modal {
-  background: #16213e;
-  border-radius: 20px;
-  padding: 28px 24px;
+  background: rgba(22, 33, 62, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 18px;
+  padding: 24px;
   text-align: center;
-  max-width: 320px;
-  width: 100%;
-  border: 1px solid #2a2a4a;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  animation: modalIn 0.25s ease;
-}
-
-@keyframes modalIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  max-width: 340px;
+  width: 90%;
 }
 
 .modal h3 {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 10px;
   color: #eaeaea;
 }
 
 .modal p {
-  font-size: 14px;
+  font-size: 13px;
   color: #a0a0b8;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
   line-height: 1.4;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  border-radius: 10px;
+  background: rgba(26, 26, 46, 0.8);
+  color: #eaeaea;
+  text-align: center;
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.modal-input:focus {
+  border-color: #a855f7;
 }
 
 .modal-buttons {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .modal-btn {
   flex: 1;
-  padding: 14px;
-  font-size: 15px;
+  padding: 12px;
+  font-size: 14px;
   font-weight: 600;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
-  min-height: 48px;
-  transition: transform 0.15s;
+  transition: transform 0.1s;
 }
 
 .modal-btn:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 .modal-btn.cancel {
@@ -622,195 +727,237 @@ body {
 }
 
 .modal-btn.confirm {
-  background: linear-gradient(135deg, #7c4dff, #651fff);
-  color: white;
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  color: #fff;
 }
 
-.modal-btn.danger {
-  background: #ff1744;
-  color: white;
+.modal-btn.danger-confirm {
+  background: #ef4444;
+  color: #fff;
 }
 
-/* Animations */
-@keyframes popIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.pop-in {
-  animation: popIn 0.3s ease;
-}
-
-/* Responsive adjustments */
-@media (max-height: 700px) {
-  .hundreds-grid {
-    gap: 6px;
-    padding: 0 12px;
+/* === RESPONSIVE === */
+@media (min-width: 400px) {
+  .number-grid-inner {
+    gap: 5px;
   }
-  .hundred-cell {
-    padding: 6px 4px;
-  }
-  .hundred-count {
-    font-size: 17px;
-  }
-  .hundred-label {
-    font-size: 10px;
-  }
-  .search-input {
-    font-size: 24px;
-    padding: 14px;
-    min-height: 54px;
-  }
-  .mark-btn {
-    min-height: 54px;
-    padding: 14px 20px;
-  }
-  .search-area {
-    padding: 12px 16px;
-  }
-  .days-info {
-    padding: 6px 16px;
-  }
-}
-
-@media (max-height: 600px) {
-  .hundred-cell {
-    padding: 4px 3px;
-  }
-  .hundred-count {
-    font-size: 15px;
-  }
-  .hundred-label {
-    font-size: 9px;
-    margin-bottom: 2px;
-  }
-  .hundred-bar {
-    margin-top: 2px;
-  }
-  .search-input {
-    font-size: 22px;
-    padding: 12px;
-    min-height: 48px;
-  }
-  .mark-btn {
-    min-height: 48px;
-    padding: 12px 18px;
-  }
-  .tracker-header {
-    padding: 8px 12px;
-  }
-  .search-area {
-    padding: 8px 12px;
-  }
-  .days-info {
-    padding: 4px 12px;
+  .num-cell {
     font-size: 12px;
   }
-  .tracker-footer {
-    padding: 8px 12px;
+}
+
+@media (min-height: 750px) {
+  .block-label {
+    font-size: 14px;
   }
+  .block-progress {
+    font-size: 18px;
+  }
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeSlideIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Hide scrollbars visually but allow if needed */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* === EMPTY STATE === */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #555570;
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.empty-state-text {
+  font-size: 14px;
 }
 </style>
 </head>
 <body>
 
-<!-- START SCREEN -->
-<div class="screen active" id="startScreen">
-  <div class="start-logo">🚗</div>
-  <div class="start-title">Plate Hunter</div>
-  <div class="start-subtitle">Отмечай встречные номера в пути</div>
-  
-  <div class="start-form">
-    <div class="input-group">
-      <label>Имя игрока</label>
-      <input type="text" class="name-input" id="nameInput" placeholder="Как тебя зовут?" maxlength="20" autocomplete="off">
-    </div>
-    <button class="start-btn" id="startBtn">Начать охоту</button>
+<!-- Header -->
+<div class="header">
+  <div class="header-row">
+    <select class="game-selector" id="gameSelector" onchange="switchGame(this.value)"></select>
+    <button class="new-game-btn" id="newGameBtn" onclick="openNewGameModal()">+ Новая</button>
   </div>
-  
-  <div class="start-stats-preview" id="startStatsPreview"></div>
-</div>
-
-<!-- TRACKER SCREEN -->
-<div class="screen" id="trackerScreen">
-  <div class="tracker-header">
-    <div class="header-top">
-      <span class="player-name" id="displayPlayerName">Игрок</span>
-      <span class="found-counter" id="foundCounter">0 / 999</span>
+  <div class="header-stats">
+    <span class="progress-text" id="headerProgress">0/999 (0%)</span>
+    <div class="progress-bar-mini">
+      <div class="progress-bar-mini-fill" id="headerProgressBar" style="width: 0%"></div>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-    </div>
-  </div>
-  
-  <div class="search-area">
-    <div class="search-row">
-      <input type="text" class="search-input" id="searchInput" placeholder="Номер" maxlength="3" inputmode="numeric" pattern="[0-9]*" autocomplete="off">
-      <button class="mark-btn" id="markBtn">✓</button>
-    </div>
-  </div>
-  
-  <div class="hundreds-grid" id="hundredsGrid"></div>
-  
-  <div class="days-info" id="daysInfo">В охоте: <span id="daysCount">0</span> дн.</div>
-  
-  <div class="tracker-footer">
-    <button class="stats-btn" id="statsBtn">📊</button>
-    <button class="finish-btn" id="finishBtn">Завершить охоту</button>
   </div>
 </div>
 
-<!-- STATS SCREEN -->
-<div class="screen" id="statsScreen">
-  <div class="stats-card">
-    <div class="stats-title">Статистика</div>
-    
-    <div class="stat-row">
-      <span class="stat-label">Игрок</span>
-      <span class="stat-value accent" id="statPlayerName">—</span>
+<!-- Main Area -->
+<div class="main-area" id="mainArea">
+
+  <!-- Grid View (Mode 1) -->
+  <div class="view grid-view active" id="gridView">
+    <div class="grid-hundreds" id="gridHundreds">
+      <!-- dynamically filled -->
     </div>
-    <div class="stat-row">
-      <span class="stat-label">Начало охоты</span>
-      <span class="stat-value" id="statStartTime">—</span>
+  </div>
+
+  <!-- Expanded Number Grid -->
+  <div class="view number-grid-view" id="numberGridView">
+    <div class="number-grid-header">
+      <h3 id="numberGridTitle">001 — 099</h3>
+      <button class="back-btn" onclick="closeNumberGrid()">← Назад</button>
     </div>
-    <div class="stat-row" id="statEndRow" style="display:none;">
-      <span class="stat-label">Конец охоты</span>
-      <span class="stat-value" id="statEndTime">—</span>
+    <div class="number-grid-inner" id="numberGridInner">
+      <!-- dynamically filled -->
     </div>
-    <div class="stat-row" id="statDurationRow" style="display:none;">
-      <span class="stat-label">Длительность</span>
-      <span class="stat-value" id="statDuration">—</span>
+  </div>
+
+  <!-- Keypad View (Mode 2) -->
+  <div class="view keypad-view" id="keypadView">
+    <div class="keypad-display">
+      <div class="keypad-display-text" id="keypadDisplay">
+        <span style="color: #555570; letter-spacing: 4px;">___</span>
+      </div>
+      <div class="keypad-display-hint">Введи номер и нажми Отметить</div>
     </div>
-    
-    <div class="big-stat">
-      <div class="big-stat-number" id="statFoundBig">0/999</div>
-      <div class="big-stat-label" id="statPercentBig">0%</div>
+    <div class="keypad-grid" id="keypadGrid">
+      <div class="keypad-row">
+        <div class="keypad-btn" onclick="keypadPress(1)">1</div>
+        <div class="keypad-btn" onclick="keypadPress(2)">2</div>
+        <div class="keypad-btn" onclick="keypadPress(3)">3</div>
+      </div>
+      <div class="keypad-row">
+        <div class="keypad-btn" onclick="keypadPress(4)">4</div>
+        <div class="keypad-btn" onclick="keypadPress(5)">5</div>
+        <div class="keypad-btn" onclick="keypadPress(6)">6</div>
+      </div>
+      <div class="keypad-row">
+        <div class="keypad-btn" onclick="keypadPress(7)">7</div>
+        <div class="keypad-btn" onclick="keypadPress(8)">8</div>
+        <div class="keypad-btn" onclick="keypadPress(9)">9</div>
+      </div>
+      <div class="keypad-row">
+        <div class="keypad-btn backspace-btn" onclick="keypadBackspace()">⌫</div>
+        <div class="keypad-btn" onclick="keypadPress(0)">0</div>
+        <div class="keypad-btn submit-btn" onclick="keypadSubmit()">✓</div>
+      </div>
     </div>
-    
-    <div class="stat-row">
-      <span class="stat-label">Найдено</span>
-      <span class="stat-value highlight" id="statFoundText">0 номеров</span>
+  </div>
+
+  <!-- Stats View -->
+  <div class="view stats-view" id="statsView">
+    <div class="stats-card">
+      <div class="stats-title" id="statsTitle">Статистика</div>
+      <div class="stats-row">
+        <span class="stats-label">Игрок</span>
+        <span class="stats-value" id="statsName">—</span>
+      </div>
+      <div class="stats-row">
+        <span class="stats-label">Начало охоты</span>
+        <span class="stats-value" id="statsStart">—</span>
+      </div>
+      <div class="stats-row">
+        <span class="stats-label">Длительность</span>
+        <span class="stats-value" id="statsDuration">—</span>
+      </div>
+      <div class="stats-row">
+        <span class="stats-label">Найдено</span>
+        <span class="stats-value" id="statsFound">—</span>
+      </div>
+      <div class="stats-row">
+        <span class="stats-label">В среднем за день</span>
+        <span class="stats-value" id="statsAvg">—</span>
+      </div>
+      <div class="stats-row">
+        <span class="stats-label">Статус</span>
+        <span class="stats-value" id="statsStatus">—</span>
+      </div>
+      <button class="stats-action-btn" onclick="openNewGameModal()">🎯 Новая охота</button>
     </div>
-    
-    <div class="stats-actions">
-      <button class="new-hunt-btn" id="newHuntBtn">Новая охота</button>
-      <button class="back-btn" id="backToTrackerBtn" style="display:none;">← Назад к трекеру</button>
+  </div>
+
+  <!-- Leaders View -->
+  <div class="view leaders-view" id="leadersView">
+    <div class="leaders-header">
+      <h3>� Таблица лидеров</h3>
     </div>
+    <div class="leaders-list" id="leadersList">
+      <!-- dynamically filled -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Panel -->
+<div class="bottom-panel" id="bottomPanel">
+  <div class="bottom-btn" id="btnLeaders" onclick="showView('leaders')">
+    <span class="bottom-btn-icon">🏆</span>
+    <span>Лидеры</span>
+  </div>
+  <div class="bottom-btn" id="btnStats" onclick="showView('stats')">
+    <span class="bottom-btn-icon">📊</span>
+    <span>Статистика</span>
+  </div>
+  <div class="bottom-btn active" id="btnMode" onclick="toggleMode()">
+    <span class="bottom-btn-icon">⌨️</span>
+    <span id="modeToggleText">Клавиатура</span>
+  </div>
+  <div class="bottom-btn danger-btn" id="btnFinish" onclick="openFinishModal()">
+    <span class="bottom-btn-icon">🏁</span>
+    <span>Завершить</span>
   </div>
 </div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- Confirm Modal -->
-<div class="modal-overlay" id="confirmModal">
+<!-- New Game Modal -->
+<div class="modal-overlay" id="newGameModal">
   <div class="modal">
-    <h3 id="confirmTitle">Подтверждение</h3>
-    <p id="confirmText">Вы уверены?</p>
+    <h3>Новая игра</h3>
+    <p>Введи имя игрока для новой сессии:</p>
+    <input type="text" class="modal-input" id="newGameInput" placeholder="Имя игрока" maxlength="20">
     <div class="modal-buttons">
-      <button class="modal-btn cancel" id="confirmCancel">Отмена</button>
-      <button class="modal-btn confirm" id="confirmOk">OK</button>
+      <button class="modal-btn cancel" onclick="closeModal('newGameModal')">Отмена</button>
+      <button class="modal-btn confirm" onclick="createNewGame()">Создать</button>
+    </div>
+  </div>
+</div>
+
+<!-- Finish Confirm Modal -->
+<div class="modal-overlay" id="finishModal">
+  <div class="modal">
+    <h3>Завершить игру?</h3>
+    <p>Игра будет помечена как завершённая. Прогресс сохранится в таблице лидеров.</p>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="closeModal('finishModal')">Отмена</button>
+      <button class="modal-btn danger-confirm" onclick="confirmFinish()">Завершить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Game Modal -->
+<div class="modal-overlay" id="deleteGameModal">
+  <div class="modal">
+    <h3>Удалить игру?</h3>
+    <p id="deleteGameText">Эта игра будет удалена навсегда.</p>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="closeModal('deleteGameModal')">Отмена</button>
+      <button class="modal-btn danger-confirm" onclick="confirmDeleteGame()">Удалить</button>
     </div>
   </div>
 </div>
@@ -819,432 +966,696 @@ body {
 (function() {
   "use strict";
 
-  // ===== STATE =====
-  var playerName = "";
-  var startTime = null;
-  var endTime = null;
-  var foundNumbers = {};
-  var totalPlates = 999;
-  var currentScreen = "start";
-  var daysTimer = null;
+  // === CONSTANTS ===
+  var STORAGE_KEY = "plateHunterGames";
+  var TOTAL_PLATES = 999;
+  var MODE_GRID = "grid";
+  var MODE_KEYPAD = "keypad";
 
-  // ===== DOM =====
-  var startScreen = document.getElementById("startScreen");
-  var trackerScreen = document.getElementById("trackerScreen");
-  var statsScreen = document.getElementById("statsScreen");
-  var nameInput = document.getElementById("nameInput");
-  var startBtn = document.getElementById("startBtn");
-  var startStatsPreview = document.getElementById("startStatsPreview");
-  var displayPlayerName = document.getElementById("displayPlayerName");
-  var foundCounterEl = document.getElementById("foundCounter");
-  var progressFillEl = document.getElementById("progressFill");
-  var searchInput = document.getElementById("searchInput");
-  var markBtn = document.getElementById("markBtn");
-  var hundredsGrid = document.getElementById("hundredsGrid");
-  var daysCountEl = document.getElementById("daysCount");
-  var finishBtn = document.getElementById("finishBtn");
-  var statsBtn = document.getElementById("statsBtn");
-  var statPlayerName = document.getElementById("statPlayerName");
-  var statStartTime = document.getElementById("statStartTime");
-  var statEndTime = document.getElementById("statEndTime");
-  var statEndRow = document.getElementById("statEndRow");
-  var statDuration = document.getElementById("statDuration");
-  var statDurationRow = document.getElementById("statDurationRow");
-  var statFoundBig = document.getElementById("statFoundBig");
-  var statPercentBig = document.getElementById("statPercentBig");
-  var statFoundText = document.getElementById("statFoundText");
-  var newHuntBtn = document.getElementById("newHuntBtn");
-  var backToTrackerBtn = document.getElementById("backToTrackerBtn");
+  // === STATE ===
+  var games = [];
+  var currentGameId = null;
+  var currentMode = MODE_GRID;
+  var currentView = "grid"; // grid, numberGrid, keypad, stats, leaders
+  var expandedHundred = -1;
+  var keypadValue = "";
+  var gameToDelete = null;
+  var toastTimer = null;
+
+  // === DOM REFERENCES ===
+  var gameSelector = document.getElementById("gameSelector");
+  var headerProgress = document.getElementById("headerProgress");
+  var headerProgressBar = document.getElementById("headerProgressBar");
+  var gridView = document.getElementById("gridView");
+  var gridHundreds = document.getElementById("gridHundreds");
+  var numberGridView = document.getElementById("numberGridView");
+  var numberGridTitle = document.getElementById("numberGridTitle");
+  var numberGridInner = document.getElementById("numberGridInner");
+  var keypadView = document.getElementById("keypadView");
+  var keypadDisplay = document.getElementById("keypadDisplay");
+  var statsView = document.getElementById("statsView");
+  var leadersView = document.getElementById("leadersView");
+  var leadersList = document.getElementById("leadersList");
   var toast = document.getElementById("toast");
-  var confirmModal = document.getElementById("confirmModal");
-  var confirmTitle = document.getElementById("confirmTitle");
-  var confirmText = document.getElementById("confirmText");
-  var confirmCancel = document.getElementById("confirmCancel");
-  var confirmOk = document.getElementById("confirmOk");
+  var modeToggleText = document.getElementById("modeToggleText");
+  var btnMode = document.getElementById("btnMode");
+  var bottomPanel = document.getElementById("bottomPanel");
 
-  // ===== STORAGE =====
-  function loadState() {
-    var savedName = localStorage.getItem("plateHunterName");
-    if (savedName) playerName = savedName;
-    
-    var savedStart = localStorage.getItem("plateHunterStartTime");
-    if (savedStart) startTime = parseInt(savedStart, 10);
-    
-    var savedEnd = localStorage.getItem("plateHunterEndTime");
-    if (savedEnd && savedEnd !== "null") endTime = parseInt(savedEnd, 10);
-    
-    var savedFound = localStorage.getItem("plateHunterFound");
-    if (savedFound) {
+  // === STORAGE ===
+
+  function loadGames() {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
       try {
-        var arr = JSON.parse(savedFound);
-        if (Array.isArray(arr)) {
-          for (var i = 0; i < arr.length; i++) {
-            foundNumbers[arr[i]] = true;
-          }
-        }
+        games = JSON.parse(raw) || [];
       } catch(e) {
-        foundNumbers = {};
+        games = [];
+      }
+    }
+    // Migrate from old format if needed
+    if (games.length === 0) {
+      var oldFound = localStorage.getItem("plateHunterFound");
+      if (oldFound) {
+        try {
+          var oldData = JSON.parse(oldFound);
+          var oldFoundArr = [];
+          for (var key in oldData) {
+            if (oldData[key]) {
+              oldFoundArr.push(parseInt(key, 10));
+            }
+          }
+          if (oldFoundArr.length > 0) {
+            games.push({
+              id: generateId(),
+              name: "Игрок 1",
+              startTime: Date.now() - 86400000,
+              endTime: null,
+              found: oldFoundArr
+            });
+            saveGames();
+            localStorage.removeItem("plateHunterFound");
+          }
+        } catch(e) {}
       }
     }
   }
 
-  function saveState() {
-    localStorage.setItem("plateHunterName", playerName);
-    localStorage.setItem("plateHunterStartTime", startTime ? String(startTime) : "");
-    localStorage.setItem("plateHunterEndTime", endTime ? String(endTime) : "null");
-    var arr = [];
-    for (var key in foundNumbers) {
-      if (foundNumbers[key]) arr.push(parseInt(key, 10));
-    }
-    localStorage.setItem("plateHunterFound", JSON.stringify(arr));
+  function saveGames() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(games));
   }
 
-  // ===== HELPERS =====
+  function generateId() {
+    return "g" + Date.now() + "_" + Math.floor(Math.random() * 10000);
+  }
+
+  function getCurrentGame() {
+    for (var i = 0; i < games.length; i++) {
+      if (games[i].id === currentGameId) return games[i];
+    }
+    return null;
+  }
+
+  // === UTILS ===
+
   function fmt(n) {
     if (n < 10) return "00" + n;
     if (n < 100) return "0" + n;
     return "" + n;
   }
 
-  function countFound() {
-    var count = 0;
-    for (var key in foundNumbers) {
-      if (foundNumbers[key]) count++;
+  function countFound(game) {
+    return game.found ? game.found.length : 0;
+  }
+
+  function hasFound(game, num) {
+    if (!game.found) return false;
+    for (var i = 0; i < game.found.length; i++) {
+      if (game.found[i] === num) return true;
     }
-    return count;
+    return false;
+  }
+
+  function getDays(start, end) {
+    var e = end || Date.now();
+    var diff = e - start;
+    return Math.max(1, Math.ceil(diff / 86400000));
   }
 
   function formatDate(ts) {
     if (!ts) return "—";
     var d = new Date(ts);
-    var day = fmt(d.getDate());
-    var month = fmt(d.getMonth() + 1);
+    var months = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+    var day = d.getDate();
+    var month = months[d.getMonth()];
     var year = d.getFullYear();
-    var hours = fmt(d.getHours());
-    var mins = fmt(d.getMinutes());
-    return day + "." + month + "." + year + " " + hours + ":" + mins;
+    var hours = d.getHours() < 10 ? "0" + d.getHours() : d.getHours();
+    var mins = d.getMinutes() < 10 ? "0" + d.getMinutes() : d.getMinutes();
+    return day + " " + month + " " + year + " " + hours + ":" + mins;
   }
 
-  function formatDuration(ms) {
-    if (!ms || ms < 0) return "—";
-    var seconds = Math.floor(ms / 1000);
-    var minutes = Math.floor(seconds / 60);
-    var hours = Math.floor(minutes / 60);
-    var days = Math.floor(hours / 24);
-    
-    if (days > 0) {
-      var remHours = hours % 24;
-      return days + " дн. " + remHours + " ч.";
-    }
-    if (hours > 0) {
-      var remMins = minutes % 60;
-      return hours + " ч. " + remMins + " мин.";
-    }
-    if (minutes > 0) return minutes + " мин.";
-    return seconds + " сек.";
-  }
+  // === TOAST ===
 
   function showToast(text, type) {
+    if (toastTimer) clearTimeout(toastTimer);
     toast.textContent = text;
-    toast.className = "toast show";
-    if (type === "already") toast.className = "toast show already";
-    else if (type === "error") toast.className = "toast show error";
-    setTimeout(function() {
-      toast.className = "toast";
+    toast.className = "toast show " + (type || "");
+    toastTimer = setTimeout(function() {
+      toast.className = "toast " + (type || "");
     }, 1800);
   }
 
-  // ===== SCREENS =====
-  function showScreen(name) {
-    currentScreen = name;
-    startScreen.classList.remove("active");
-    trackerScreen.classList.remove("active");
-    statsScreen.classList.remove("active");
-    
-    if (name === "start") startScreen.classList.add("active");
-    else if (name === "tracker") {
-      trackerScreen.classList.add("active");
-      updateTrackerUI();
-      focusSearch();
+  // === HEADER ===
+
+  function updateHeader() {
+    var game = getCurrentGame();
+    if (!game) {
+      headerProgress.textContent = "Нет игры";
+      headerProgressBar.style.width = "0%";
+      return;
     }
-    else if (name === "stats") {
-      statsScreen.classList.add("active");
-      updateStatsUI();
+    var count = countFound(game);
+    var pct = Math.round((count / TOTAL_PLATES) * 100);
+    headerProgress.textContent = count + "/999 (" + pct + "%)";
+    headerProgressBar.style.width = pct + "%";
+  }
+
+  // === GAME SELECTOR ===
+
+  function renderGameSelector() {
+    gameSelector.innerHTML = "";
+    if (games.length === 0) {
+      var opt = document.createElement("option");
+      opt.value = "";
+      opt.textContent = "Нет игр — создай новую!";
+      gameSelector.appendChild(opt);
+      return;
     }
-  }
-
-  function focusSearch() {
-    setTimeout(function() {
-      searchInput.focus();
-    }, 100);
-  }
-
-  // ===== TRACKER UI =====
-  function updateTrackerUI() {
-    var count = countFound();
-    var pct = ((count / totalPlates) * 100).toFixed(1);
-    foundCounterEl.textContent = count + " / " + totalPlates;
-    progressFillEl.style.width = pct + "%";
-    displayPlayerName.textContent = playerName || "Игрок";
-    updateHundredsGrid();
-    updateDays();
-  }
-
-  function updateHundredsGrid() {
-    var html = "";
-    var ranges = [
-      { label: "001-099", start: 1, end: 99 },
-      { label: "100-199", start: 100, end: 199 },
-      { label: "200-299", start: 200, end: 299 },
-      { label: "300-399", start: 300, end: 399 },
-      { label: "400-499", start: 400, end: 499 },
-      { label: "500-599", start: 500, end: 599 },
-      { label: "600-699", start: 600, end: 699 },
-      { label: "700-799", start: 700, end: 799 },
-      { label: "800-899", start: 800, end: 899 }
-    ];
-    
-    for (var i = 0; i < ranges.length; i++) {
-      var r = ranges[i];
-      var found = 0;
-      var total = r.end - r.start + 1;
-      for (var n = r.start; n <= r.end; n++) {
-        if (foundNumbers[n]) found++;
+    for (var i = 0; i < games.length; i++) {
+      var g = games[i];
+      var opt = document.createElement("option");
+      opt.value = g.id;
+      var count = countFound(g);
+      var pct = Math.round((count / TOTAL_PLATES) * 100);
+      var status = g.endTime ? "✓ " : "";
+      var label = status + g.name + " — " + count + "/999 (" + pct + "%)";
+      opt.textContent = label;
+      if (g.id === currentGameId) {
+        opt.selected = true;
       }
-      var pct = (found / total) * 100;
-      var countClass = found === total ? "done" : (found > 0 ? "partial" : "");
-      var cellClass = found === total ? "complete" : "";
-      
-      html += '<div class="hundred-cell ' + cellClass + '">';
-      html += '<div class="hundred-label">' + r.label + '</div>';
-      html += '<div class="hundred-count ' + countClass + '">' + found + '<span style="font-size:11px;color:#555570;">/' + total + '</span></div>';
-      html += '<div class="hundred-bar"><div class="hundred-bar-fill" style="width:' + pct + '%"></div></div>';
-      html += '</div>';
-    }
-    
-    hundredsGrid.innerHTML = html;
-  }
-
-  function updateDays() {
-    if (!startTime) {
-      daysCountEl.textContent = "0";
-      return;
-    }
-    var now = endTime || Date.now();
-    var diff = now - startTime;
-    var days = Math.max(0, diff / (1000 * 60 * 60 * 24));
-    if (days < 1) {
-      daysCountEl.textContent = "<1";
-    } else {
-      daysCountEl.textContent = Math.floor(days);
+      gameSelector.appendChild(opt);
     }
   }
 
-  // ===== STATS UI =====
-  function updateStatsUI() {
-    var count = countFound();
-    var pct = ((count / totalPlates) * 100).toFixed(1);
-    
-    statPlayerName.textContent = playerName || "—";
-    statStartTime.textContent = formatDate(startTime);
-    
-    if (endTime) {
-      statEndRow.style.display = "";
-      statDurationRow.style.display = "";
-      statEndTime.textContent = formatDate(endTime);
-      statDuration.textContent = formatDuration(endTime - startTime);
-      backToTrackerBtn.style.display = "none";
-    } else {
-      statEndRow.style.display = "none";
-      statDurationRow.style.display = "none";
-      backToTrackerBtn.style.display = "";
-    }
-    
-    statFoundBig.innerHTML = count + '<span style="font-size:24px;color:#555570;">/' + totalPlates + '</span>';
-    statPercentBig.textContent = pct + "% найдено";
-    statFoundText.textContent = count + " номеров";
+  function switchGame(id) {
+    currentGameId = id;
+    currentView = "grid";
+    expandedHundred = -1;
+    keypadValue = "";
+    renderAll();
   }
 
-  // ===== MARK NUMBER =====
-  function markNumber() {
-    var val = searchInput.value.trim();
-    if (val.length === 0) return;
-    
-    var num = parseInt(val, 10);
-    if (isNaN(num) || num < 1 || num > 999) {
-      showToast("Номер от 001 до 999", "error");
-      return;
+  // === GRID (Hundreds) ===
+
+  function renderGridHundreds() {
+    gridHundreds.innerHTML = "";
+    var game = getCurrentGame();
+    for (var h = 0; h < 9; h++) {
+      var block = document.createElement("div");
+      block.className = "block";
+
+      var label = document.createElement("div");
+      label.className = "block-label";
+      var start = h * 100 + (h === 0 ? 1 : 0);
+      var end = h * 100 + 99;
+      label.textContent = fmt(start) + "-" + fmt(end);
+      block.appendChild(label);
+
+      var progress = document.createElement("div");
+      progress.className = "block-progress";
+
+      var count = 0;
+      var rangeStart = h === 0 ? 1 : h * 100;
+      var rangeEnd = h * 100 + 99;
+      var rangeSize = h === 0 ? 99 : 100;
+      if (game && game.found) {
+        for (var i = 0; i < game.found.length; i++) {
+          var n = game.found[i];
+          if (n >= rangeStart && n <= rangeEnd) count++;
+        }
+      }
+      progress.textContent = count + "/" + rangeSize;
+      if (count === rangeSize) {
+        progress.classList.add("complete");
+      }
+      block.appendChild(progress);
+
+      (function(hundred) {
+        block.addEventListener("click", function() {
+          openHundredGrid(hundred);
+        });
+      })(h);
+
+      gridHundreds.appendChild(block);
     }
-    
+  }
+
+  function openHundredGrid(hundred) {
+    expandedHundred = hundred;
+    currentView = "numberGrid";
+    var start = hundred === 0 ? 1 : hundred * 100;
+    var end = hundred * 100 + 99;
+    numberGridTitle.textContent = fmt(start) + " — " + fmt(end);
+    renderNumberGridInner();
+    showView("numberGrid");
+  }
+
+  function renderNumberGridInner() {
+    numberGridInner.innerHTML = "";
+    var game = getCurrentGame();
+    var start = expandedHundred === 0 ? 1 : expandedHundred * 100;
+    var end = expandedHundred * 100 + 99;
+    for (var num = start; num <= end; num++) {
+      var cell = document.createElement("div");
+      cell.className = "num-cell";
+      if (hasFound(game, num)) {
+        cell.classList.add("found");
+      }
+      cell.textContent = fmt(num);
+      (function(n) {
+        cell.addEventListener("click", function() {
+          toggleNumber(n, cell);
+        });
+      })(num);
+      numberGridInner.appendChild(cell);
+    }
+  }
+
+  function closeNumberGrid() {
+    currentView = "grid";
+    showView("grid");
+    renderGridHundreds();
+  }
+
+  // === TOGGLE NUMBER ===
+
+  function toggleNumber(num, cellEl) {
+    var game = getCurrentGame();
+    if (!game) return;
+    var idx = -1;
+    for (var i = 0; i < game.found.length; i++) {
+      if (game.found[i] === num) {
+        idx = i;
+        break;
+      }
+    }
     var key = fmt(num);
-    var wasFound = !!foundNumbers[num];
-    
-    if (wasFound) {
-      showToast(key + " уже найден", "already");
+    if (idx >= 0) {
+      // Remove
+      game.found.splice(idx, 1);
+      showToast(key + " — убрано", "already");
+      if (cellEl) {
+        cellEl.classList.remove("found");
+        cellEl.classList.add("just-removed");
+        setTimeout(function() { cellEl.classList.remove("just-removed"); }, 350);
+      }
+      // Refresh keypad display if in keypad mode
+      if (currentMode === MODE_KEYPAD) {
+        flashDisplay("red");
+      }
     } else {
-      foundNumbers[num] = true;
-      saveState();
-      updateTrackerUI();
+      // Add
+      game.found.push(num);
       showToast("✓ " + key + " найден!", "");
-      
-      // Check if all found
-      if (countFound() === totalPlates) {
-        setTimeout(function() {
-          showToast("🎉 Все 999 номеров найдены!", "");
-        }, 500);
+      if (cellEl) {
+        cellEl.classList.add("found", "just-marked");
+        setTimeout(function() { cellEl.classList.remove("just-marked"); }, 350);
+      }
+      // Refresh keypad display if in keypad mode
+      if (currentMode === MODE_KEYPAD) {
+        flashDisplay("green");
       }
     }
-    
-    searchInput.value = "";
-    searchInput.focus();
+    saveGames();
+    updateHeader();
+    // Sync the cell in numberGridInner
+    if (currentView === "numberGrid" && cellEl) {
+      // cell already updated
+    }
+    // Refresh grid hundreds to update counts
+    if (currentView === "grid") {
+      renderGridHundreds();
+    }
   }
 
-  // ===== CONFIRM MODAL =====
-  var confirmCallback = null;
-  function showConfirm(title, text, cb, btnClass) {
-    confirmTitle.textContent = title;
-    confirmText.textContent = text;
-    confirmOk.className = "modal-btn " + (btnClass || "confirm");
-    confirmCallback = cb;
-    confirmModal.classList.add("show");
-  }
-  
-  function hideConfirm() {
-    confirmModal.classList.remove("show");
-    confirmCallback = null;
+  // === KEYPAD ===
+
+  function keypadPress(digit) {
+    if (keypadValue.length >= 3) return;
+    keypadValue += "" + digit;
+    updateKeypadDisplay();
   }
 
-  confirmCancel.addEventListener("click", hideConfirm);
-  confirmOk.addEventListener("click", function() {
-    if (confirmCallback) confirmCallback();
-    hideConfirm();
-  });
-  confirmModal.addEventListener("click", function(e) {
-    if (e.target === confirmModal) hideConfirm();
-  });
+  function keypadBackspace() {
+    if (keypadValue.length > 0) {
+      keypadValue = keypadValue.slice(0, -1);
+      updateKeypadDisplay();
+    }
+  }
 
-  // ===== EVENTS =====
-  startBtn.addEventListener("click", function() {
-    var name = nameInput.value.trim();
-    if (!name) {
-      showToast("Введи имя", "error");
+  function updateKeypadDisplay() {
+    if (keypadValue.length === 0) {
+      keypadDisplay.innerHTML = '<span style="color: #555570; letter-spacing: 4px;">___</span>';
+    } else {
+      var padded = keypadValue;
+      while (padded.length < 3) padded += "·";
+      keypadDisplay.textContent = padded;
+    }
+  }
+
+  function keypadSubmit() {
+    if (keypadValue.length === 0) return;
+    var num = parseInt(keypadValue, 10);
+    if (isNaN(num) || num < 1 || num > 999) {
+      showToast("Номер от 001 до 999", "already");
+      keypadValue = "";
+      updateKeypadDisplay();
       return;
     }
-    
-    playerName = name;
-    
-    // Set startTime only if not already set
-    if (!startTime) {
-      startTime = Date.now();
-      endTime = null;
+    var game = getCurrentGame();
+    if (!game) return;
+    var key = fmt(num);
+    var idx = -1;
+    for (var i = 0; i < game.found.length; i++) {
+      if (game.found[i] === num) {
+        idx = i;
+        break;
+      }
     }
-    
-    saveState();
-    showScreen("tracker");
-  });
-
-  markBtn.addEventListener("click", function(e) {
-    e.preventDefault();
-    markNumber();
-  });
-
-  searchInput.addEventListener("input", function() {
-    var val = searchInput.value.replace(/[^0-9]/g, "");
-    searchInput.value = val;
-    if (val.length === 3) {
-      markNumber();
-    }
-  });
-
-  searchInput.addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      markNumber();
-    }
-  });
-
-  finishBtn.addEventListener("click", function() {
-    showConfirm("Завершить охоту?", "Охота будет завершена и зафиксировано время. Продолжить?", function() {
-      endTime = Date.now();
-      saveState();
-      showScreen("stats");
-    }, "confirm");
-  });
-
-  statsBtn.addEventListener("click", function() {
-    showScreen("stats");
-  });
-
-  newHuntBtn.addEventListener("click", function() {
-    showConfirm("Новая охота?", "Весь прогресс будет удалён. Это действие нельзя отменить.", function() {
-      playerName = "";
-      startTime = null;
-      endTime = null;
-      foundNumbers = {};
-      localStorage.removeItem("plateHunterName");
-      localStorage.removeItem("plateHunterStartTime");
-      localStorage.removeItem("plateHunterEndTime");
-      localStorage.removeItem("plateHunterFound");
-      nameInput.value = "";
-      searchInput.value = "";
-      updateStartPreview();
-      showScreen("start");
-    }, "danger");
-  });
-
-  backToTrackerBtn.addEventListener("click", function() {
-    showScreen("tracker");
-  });
-
-  // ===== START SCREEN PREVIEW =====
-  function updateStartPreview() {
-    if (startTime && Object.keys(foundNumbers).length > 0) {
-      var count = countFound();
-      var days = Math.max(0, (Date.now() - startTime) / (1000 * 60 * 60 * 24));
-      var daysText = days < 1 ? "менее дня" : Math.floor(days) + " дн.";
-      startStatsPreview.innerHTML = "Найдено: " + count + " | В охоте: " + daysText;
+    if (idx >= 0) {
+      // Already found — remove
+      game.found.splice(idx, 1);
+      showToast(key + " — убрано", "already");
+      flashDisplay("red");
     } else {
-      startStatsPreview.innerHTML = "";
+      // New — add
+      game.found.push(num);
+      showToast("✓ " + key + " найден!", "");
+      flashDisplay("green");
+    }
+    saveGames();
+    updateHeader();
+    keypadValue = "";
+    updateKeypadDisplay();
+    // Refresh grid if visible
+    if (currentView === "grid") {
+      renderGridHundreds();
+    }
+    // Refresh numberGridInner if visible
+    if (currentView === "numberGrid") {
+      renderNumberGridInner();
     }
   }
 
-  // ===== SERVICE WORKER =====
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function() {
-      navigator.serviceWorker.register("./sw.js").catch(function(err) {
-        console.log("SW registration failed:", err);
-      });
+  function flashDisplay(color) {
+    keypadDisplay.className = "keypad-display-text flash-" + color;
+    setTimeout(function() {
+      keypadDisplay.className = "keypad-display-text";
+    }, 500);
+  }
+
+  // === VIEW MANAGEMENT ===
+
+  function showView(viewName) {
+    // Hide all views
+    gridView.classList.remove("active");
+    numberGridView.classList.remove("active");
+    keypadView.classList.remove("active");
+    statsView.classList.remove("active");
+    leadersView.classList.remove("active");
+    bottomPanel.style.display = "";
+
+    // Show target
+    currentView = viewName;
+    if (viewName === "grid") {
+      gridView.classList.add("active");
+      renderGridHundreds();
+    } else if (viewName === "numberGrid") {
+      numberGridView.classList.add("active");
+    } else if (viewName === "keypad") {
+      keypadView.classList.add("active");
+      keypadValue = "";
+      updateKeypadDisplay();
+    } else if (viewName === "stats") {
+      statsView.classList.add("active");
+      renderStats();
+      bottomPanel.style.display = "none";
+    } else if (viewName === "leaders") {
+      leadersView.classList.add("active");
+      renderLeaders();
+      bottomPanel.style.display = "none";
+    }
+
+    // Add transition animation
+    var activeView = document.querySelector(".view.active");
+    if (activeView) {
+      activeView.classList.add("view-transition");
+      setTimeout(function() { activeView.classList.remove("view-transition"); }, 250);
+    }
+  }
+
+  // === MODE TOGGLE ===
+
+  function toggleMode() {
+    if (currentMode === MODE_GRID) {
+      currentMode = MODE_KEYPAD;
+      modeToggleText.textContent = "Сетка";
+      btnMode.querySelector(".bottom-btn-icon").textContent = "📊";
+      showView("keypad");
+    } else {
+      currentMode = MODE_GRID;
+      modeToggleText.textContent = "Клавиатура";
+      btnMode.querySelector(".bottom-btn-icon").textContent = "⌨️";
+      showView("grid");
+    }
+  }
+
+  // === STATS ===
+
+  function renderStats() {
+    var game = getCurrentGame();
+    if (!game) {
+      document.getElementById("statsTitle").textContent = "Нет активной игры";
+      return;
+    }
+    document.getElementById("statsTitle").textContent = "� " + game.name;
+    document.getElementById("statsName").textContent = game.name;
+    document.getElementById("statsStart").textContent = formatDate(game.startTime);
+    var end = game.endTime || Date.now();
+    var days = getDays(game.startTime, end);
+    document.getElementById("statsDuration").textContent = days + " " + pluralDays(days);
+    var count = countFound(game);
+    var pct = Math.round((count / TOTAL_PLATES) * 100);
+    document.getElementById("statsFound").textContent = count + "/999 (" + pct + "%)";
+    var avg = days > 0 ? (count / days).toFixed(1) : count;
+    document.getElementById("statsAvg").textContent = avg + " номер(а)";
+    document.getElementById("statsStatus").textContent = game.endTime ? "� Завершена" : "🎯 Активна";
+    document.getElementById("statsStatus").style.color = game.endTime ? "#a855f7" : "#22c55e";
+  }
+
+  function pluralDays(n) {
+    if (n === 1) return "день";
+    if (n >= 2 && n <= 4) return "дня";
+    return "дней";
+  }
+
+  // === LEADERS ===
+
+  function renderLeaders() {
+    leadersList.innerHTML = "";
+    if (games.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "empty-state";
+      empty.innerHTML = '<div class="empty-state-icon">�</div><div class="empty-state-text">Пока нет игр. Создай первую!</div>';
+      leadersList.appendChild(empty);
+      return;
+    }
+
+    // Sort by progress descending
+    var sorted = games.slice().sort(function(a, b) {
+      var pa = countFound(a) / TOTAL_PLATES;
+      var pb = countFound(b) / TOTAL_PLATES;
+      if (pb !== pa) return pb - pa;
+      return b.startTime - a.startTime;
+    });
+
+    for (var i = 0; i < sorted.length; i++) {
+      var g = sorted[i];
+      var count = countFound(g);
+      var pct = Math.round((count / TOTAL_PLATES) * 100);
+      var end = g.endTime || Date.now();
+      var days = getDays(g.startTime, end);
+
+      var row = document.createElement("div");
+      row.className = "leader-row";
+
+      var nameEl = document.createElement("div");
+      nameEl.className = "leader-name";
+      var medal = i === 0 ? "🥇 " : i === 1 ? "� " : i === 2 ? "🥉 " : "";
+      nameEl.textContent = medal + g.name;
+      row.appendChild(nameEl);
+
+      var barBg = document.createElement("div");
+      barBg.className = "leader-bar-bg";
+      var barFill = document.createElement("div");
+      barFill.className = "leader-bar-fill";
+      barFill.style.width = pct + "%";
+      barBg.appendChild(barFill);
+      row.appendChild(barBg);
+
+      var meta = document.createElement("div");
+      meta.className = "leader-meta";
+      var leftSpan = document.createElement("span");
+      leftSpan.textContent = count + "/999 (" + pct + "%) · " + days + " " + pluralDays(days);
+      var rightSpan = document.createElement("span");
+      var statusSpan = document.createElement("span");
+      statusSpan.className = "leader-status " + (g.endTime ? "done" : "active");
+      statusSpan.textContent = g.endTime ? "Завершена" : "Активна";
+      rightSpan.appendChild(statusSpan);
+      meta.appendChild(leftSpan);
+      meta.appendChild(rightSpan);
+      row.appendChild(meta);
+
+      leadersList.appendChild(row);
+    }
+  }
+
+  // === NEW GAME ===
+
+  function openNewGameModal() {
+    document.getElementById("newGameInput").value = "";
+    document.getElementById("newGameModal").classList.add("show");
+    setTimeout(function() {
+      document.getElementById("newGameInput").focus();
+    }, 200);
+  }
+
+  function createNewGame() {
+    var name = document.getElementById("newGameInput").value.trim();
+    if (!name) {
+      showToast("Введи имя игрока", "info");
+      return;
+    }
+    var game = {
+      id: generateId(),
+      name: name,
+      startTime: Date.now(),
+      endTime: null,
+      found: []
+    };
+    games.push(game);
+    currentGameId = game.id;
+    saveGames();
+    closeModal("newGameModal");
+    currentMode = MODE_GRID;
+    currentView = "grid";
+    modeToggleText.textContent = "Клавиатура";
+    btnMode.querySelector(".bottom-btn-icon").textContent = "⌨️";
+    renderAll();
+    showToast('Игра "' + name + '" создана!', "info");
+  }
+
+  // === FINISH GAME ===
+
+  function openFinishModal() {
+    var game = getCurrentGame();
+    if (!game) {
+      showToast("Нет активной игры", "info");
+      return;
+    }
+    if (game.endTime) {
+      showToast("Эта игра уже завершена", "info");
+      return;
+    }
+    document.getElementById("finishModal").classList.add("show");
+  }
+
+  function confirmFinish() {
+    var game = getCurrentGame();
+    if (!game) return;
+    game.endTime = Date.now();
+    saveGames();
+    closeModal("finishModal");
+    showToast('Игра "' + game.name + '" завершена!', "info");
+    renderAll();
+  }
+
+  // === DELETE ===
+
+  function confirmDeleteGame() {
+    if (!gameToDelete) return;
+    var idx = -1;
+    for (var i = 0; i < games.length; i++) {
+      if (games[i].id === gameToDelete) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx >= 0) {
+      games.splice(idx, 1);
+      if (currentGameId === gameToDelete) {
+        currentGameId = games.length > 0 ? games[0].id : null;
+      }
+      saveGames();
+      renderAll();
+    }
+    closeModal("deleteGameModal");
+    gameToDelete = null;
+  }
+
+  // === MODAL HELPERS ===
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("show");
+  }
+
+  // === RENDER ALL ===
+
+  function renderAll() {
+    if (!currentGameId && games.length > 0) {
+      currentGameId = games[0].id;
+    }
+    renderGameSelector();
+    updateHeader();
+    if (currentView === "grid" || currentView === "numberGrid") {
+      if (currentView === "grid") {
+        renderGridHundreds();
+      } else {
+        renderNumberGridInner();
+      }
+    }
+  }
+
+  // === INIT ===
+
+  function init() {
+    loadGames();
+
+    // Create default game if none exists
+    if (games.length === 0) {
+      var game = {
+        id: generateId(),
+        name: "Игрок 1",
+        startTime: Date.now(),
+        endTime: null,
+        found: []
+      };
+      games.push(game);
+      currentGameId = game.id;
+      saveGames();
+    } else {
+      currentGameId = games[0].id;
+    }
+
+    renderAll();
+
+    // Overlay click handlers
+    document.getElementById("newGameModal").addEventListener("click", function(e) {
+      if (e.target === this) closeModal("newGameModal");
+    });
+    document.getElementById("finishModal").addEventListener("click", function(e) {
+      if (e.target === this) closeModal("finishModal");
+    });
+    document.getElementById("deleteGameModal").addEventListener("click", function(e) {
+      if (e.target === this) closeModal("deleteGameModal");
+    });
+
+    // Enter key on new game input
+    document.getElementById("newGameInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") createNewGame();
     });
   }
 
-  // ===== INIT =====
-  loadState();
-  
-  // Pre-fill name if exists
-  if (playerName) {
-    nameInput.value = playerName;
-    startBtn.textContent = "Продолжить";
-  }
-  
-  updateStartPreview();
-  
-  // Determine initial screen
-  if (playerName && startTime) {
-    if (endTime) {
-      showScreen("stats");
-    } else {
-      showScreen("tracker");
-    }
-  } else {
-    showScreen("start");
-  }
-  
-  // Days timer
-  daysTimer = setInterval(function() {
-    if (currentScreen === "tracker") {
-      updateDays();
-    }
-  }, 60000);
+  init();
 
 })();
 </script>
