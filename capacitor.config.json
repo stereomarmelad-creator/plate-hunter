@@ -1,0 +1,15 @@
+{
+  "appId": "com.platehunter.app",
+  "appName": "Plate Hunter",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "backgroundColor": "#1a1a2e",
+      "showSpinner": false
+    }
+  }
+}
