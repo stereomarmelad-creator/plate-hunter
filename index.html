@@ -587,6 +587,7 @@ html, body {
   <div class="leaderboard-list" id="leaderboard-list">
     <div class="leaderboard-empty">Загрузка...</div>
   </div>
+  <button class="btn-small" id="submit-score-btn" onclick="submitScore()" style="flex-shrink:0;border-color:rgba(234,179,8,0.4);color:#fbbf24;background:rgba(234,179,8,0.1);">� Отправить мой результат</button>
   <button class="back-btn" onclick="switchScreen('start-screen')" style="flex-shrink:0;">← Назад</button>
   <div class="leaderboard-status" id="leaderboard-status"></div>
 </div>
@@ -921,6 +922,8 @@ function showToast(msg, isError) {
 function showLeaderboard() {
   switchScreen('leaderboard-screen');
   loadLeaderboard();
+  // Refresh on focus
+  document.getElementById('leaderboard-list').scrollTop = 0;
 }
 
 function loadLeaderboard() {
@@ -930,6 +933,7 @@ function loadLeaderboard() {
   fetch(LEADERBOARD_URL, { method: 'GET' })
     .then(function(r) { return r.json(); })
     .then(function(data) {
+      if (!data) data = { players: [] };
       STATE.lbData = data;
       renderLeaderboard(data);
     })
@@ -940,7 +944,8 @@ function loadLeaderboard() {
 
 function renderLeaderboard(data) {
   var list = document.getElementById('leaderboard-list');
-  var players = data.players || [];
+  if (!data || !data.players) { data = { players: [] }; }
+  var players = data.players;
   
   if (players.length === 0) {
     list.innerHTML = '<div class="leaderboard-empty">Пока никого нет.<br>Будь первым! 🏆</div>';
@@ -973,8 +978,12 @@ function renderLeaderboard(data) {
   }
   list.innerHTML = html;
   
+  var myStat = '';
+  if (STATE.found.length > 0) {
+    myStat = ' • Твой прогресс: ' + STATE.found.length + ' / 999';
+  }
   document.getElementById('leaderboard-status').textContent = 
-    'Всего игроков: ' + players.length + ' • Обновлено только что';
+    'Игроков: ' + players.length + myStat;
 }
 
 function submitScore() {
