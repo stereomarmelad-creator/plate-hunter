@@ -7,7 +7,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Plate Hunter</title>
-<link rel="manifest" href='data:application/json,{"name":"Plate+Hunter","short_name":"Plates","start_url":".","display":"standalone","background_color":"%231a1a2e","theme_color":"%231a1a2e"}'>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>�</text></svg>">
+<link rel="manifest" href='data:application/json,{"name":"Plate+Hunter","short_name":"Plates","start_url":".","display":"standalone","background_color":"%231a1a2e","theme_color":"%231a1a2e","icons":[{"src":"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>","sizes":"any","type":"image/svg+xml"}]}'>
 <style>
 * {
   margin: 0;
@@ -40,11 +41,57 @@ html, body {
   display: flex;
 }
 
+/* === NAME SCREEN === */
+#name-screen {
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.name-logo {
+  font-size: 36px;
+  font-weight: 900;
+  color: #a855f7;
+  margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.name-prompt {
+  font-size: 16px;
+  color: #a0a0b8;
+  margin-bottom: 8px;
+}
+
+.name-input {
+  width: 100%;
+  max-width: 280px;
+  padding: 16px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  border-radius: 14px;
+  background: rgba(42, 42, 74, 0.8);
+  color: #eaeaea;
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.name-input:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+.name-input::placeholder {
+  color: #555570;
+}
+
 /* === START SCREEN === */
 #start-screen {
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   padding: 20px;
 }
 
@@ -52,14 +99,20 @@ html, body {
   font-size: 42px;
   font-weight: 900;
   color: #a855f7;
-  margin-bottom: 8px;
   letter-spacing: -1px;
 }
 
 .start-subtitle {
   font-size: 14px;
   color: #666688;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+}
+
+.start-player {
+  font-size: 13px;
+  color: #22c55e;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .start-btn {
@@ -94,10 +147,98 @@ html, body {
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
+.start-btn.tertiary {
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
 .start-btn.exit {
   background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* === LEADERBOARD SCREEN === */
+#leaderboard-screen {
+  padding: 20px;
+  gap: 12px;
+}
+
+.leaderboard-title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #a855f7;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.leaderboard-list {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(42, 42, 74, 0.6);
+  border-radius: 10px;
+  border: 1px solid rgba(168, 85, 247, 0.15);
+}
+
+.leaderboard-row.you {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.leaderboard-rank {
+  font-size: 16px;
+  font-weight: 800;
+  color: #a855f7;
+  min-width: 28px;
+  text-align: center;
+}
+
+.leaderboard-rank.gold { color: #fbbf24; }
+.leaderboard-rank.silver { color: #94a3b8; }
+.leaderboard-rank.bronze { color: #d97706; }
+
+.leaderboard-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: #eaeaea;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-count {
+  font-size: 15px;
+  font-weight: 800;
+  color: #22c55e;
+  min-width: 48px;
+  text-align: right;
+}
+
+.leaderboard-empty {
+  text-align: center;
+  color: #555570;
+  font-size: 14px;
+  padding: 40px 20px;
+}
+
+.leaderboard-status {
+  font-size: 11px;
+  color: #555570;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 /* === GAME SCREEN === */
@@ -122,7 +263,7 @@ html, body {
   white-space: nowrap;
 }
 
-.game-top-bar .btn-small {
+.btn-small {
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 600;
@@ -132,9 +273,11 @@ html, body {
   color: #a855f7;
   cursor: pointer;
   min-height: 38px;
+  -webkit-appearance: none;
+  touch-action: manipulation;
 }
 
-.game-top-bar .btn-small:active {
+.btn-small:active {
   transform: scale(0.94);
 }
 
@@ -221,9 +364,11 @@ html, body {
   justify-content: center;
   min-height: 50px;
   transition: all 0.1s ease;
+  -webkit-appearance: none;
+  touch-action: manipulation;
 }
 
-.key-btn:active {
+.key-btn:active, .key-btn.touching {
   transform: scale(0.92);
   background: rgba(168, 85, 247, 0.35);
 }
@@ -243,7 +388,6 @@ html, body {
 }
 
 /* === GRID VIEW === */
-/* Grid view - scrollable */
 .grid-view {
   display: none;
   flex-direction: column;
@@ -298,6 +442,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  touch-action: manipulation;
 }
 
 .grid-num.found {
@@ -307,140 +452,6 @@ html, body {
 
 .grid-num:active {
   transform: scale(0.9);
-}
-
-.hundred-block {
-  background: rgba(42, 42, 74, 0.7);
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.12s ease;
-  min-height: 0;
-}
-
-.hundred-block:active {
-  transform: scale(0.95);
-  border-color: rgba(168, 85, 247, 0.6);
-}
-
-.hundred-block .block-label {
-  font-size: 13px;
-  font-weight: 700;
-  color: #a0a0b8;
-}
-
-.hundred-block .block-progress {
-  font-size: 18px;
-  font-weight: 800;
-  color: #a855f7;
-  margin-top: 2px;
-}
-
-.hundred-block .block-progress.complete {
-  color: #22c55e;
-}
-
-/* Number detail view */
-.number-detail {
-  display: none;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.number-detail.active {
-  display: flex;
-}
-
-.detail-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 12px;
-  flex-shrink: 0;
-  border-bottom: 1px solid rgba(168, 85, 247, 0.15);
-}
-
-.detail-header h3 {
-  font-size: 15px;
-  color: #a0a0b8;
-  font-weight: 700;
-}
-
-.detail-back-btn {
-  padding: 6px 12px;
-  font-size: 13px;
-  font-weight: 600;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  border-radius: 8px;
-  background: rgba(42, 42, 74, 0.7);
-  color: #a855f7;
-  cursor: pointer;
-}
-
-.detail-back-btn:active {
-  transform: scale(0.94);
-}
-
-.detail-grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
-  padding: 10px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  align-content: start;
-}
-
-.detail-cell {
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  border-radius: 8px;
-  background: #2a2a4a;
-  color: #555570;
-  cursor: pointer;
-  transition: all 0.12s ease;
-  min-height: 44px;
-}
-
-.detail-cell:active {
-  transform: scale(0.9);
-}
-
-.detail-cell.found {
-  background: rgba(34, 197, 94, 0.25);
-  color: #22c55e;
-  border: 1px solid rgba(34, 197, 94, 0.4);
-}
-
-.detail-cell.just-marked {
-  animation: popIn 0.35s ease;
-}
-
-.detail-cell.just-removed {
-  animation: popOut 0.35s ease;
-}
-
-@keyframes popIn {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25); background: rgba(34, 197, 94, 0.5); }
-  100% { transform: scale(1); }
-}
-
-@keyframes popOut {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25); background: rgba(239, 68, 68, 0.5); }
-  100% { transform: scale(1); }
 }
 
 /* Bottom bar */
@@ -468,7 +479,7 @@ html, body {
   transform: scale(0.94);
 }
 
-/* Keyboard view / Grid view toggle */
+/* Keyboard view */
 .keyboard-view {
   display: none;
   flex-direction: column;
@@ -479,17 +490,105 @@ html, body {
 .keyboard-view.active {
   display: flex;
 }
+
+/* === TOAST === */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(34, 197, 94, 0.92);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 999;
+  pointer-events: none;
+  animation: toastIn 0.3s ease;
+}
+
+.toast.error {
+  background: rgba(239, 68, 68, 0.92);
+}
+
+@keyframes toastIn {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes toastOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* === LEADERBOARD BTN IN TOP BAR === */
+.lb-btn {
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  cursor: pointer;
+  min-height: 38px;
+  -webkit-appearance: none;
+  touch-action: manipulation;
+}
+
+.lb-btn:active {
+  transform: scale(0.94);
+}
+
+.back-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 8px;
+  background: rgba(42, 42, 74, 0.7);
+  color: #a855f7;
+  cursor: pointer;
+  -webkit-appearance: none;
+  touch-action: manipulation;
+}
+
+.back-btn:active {
+  transform: scale(0.94);
+}
+
 </style>
 </head>
 <body>
 
+<!-- NAME SCREEN -->
+<div id="name-screen" class="screen">
+  <div class="name-logo">🚗 Plate Hunter</div>
+  <div class="name-prompt">Как тебя зовут?</div>
+  <input type="text" class="name-input" id="name-input" placeholder="Введи имя" maxlength="20">
+  <button class="start-btn primary" onclick="saveNameAndContinue()">Продолжить →</button>
+</div>
+
 <!-- START SCREEN -->
-<div id="start-screen" class="screen active">
+<div id="start-screen" class="screen">
   <div class="start-logo">🚗 Plate Hunter</div>
   <div class="start-subtitle">Отмечай встречные номера</div>
+  <div class="start-player" id="start-player-name"></div>
   <button class="start-btn primary" onclick="startNewGame()">Начать игру</button>
-  <button class="start-btn secondary" onclick="continueGame()">Продолжить</button>
-  <button class="start-btn exit" onclick="exitGame()">Выход</button>
+  <button class="start-btn secondary" id="btn-continue" onclick="continueGame()" style="display:none;">Продолжить</button>
+  <button class="start-btn tertiary" onclick="showLeaderboard()">🏆 Рейтинг</button>
+  <button class="start-btn exit" onclick="changeName()">� Сменить имя</button>
+</div>
+
+<!-- LEADERBOARD SCREEN -->
+<div id="leaderboard-screen" class="screen">
+  <div class="leaderboard-title">🏆 Рейтинг игроков</div>
+  <div class="leaderboard-list" id="leaderboard-list">
+    <div class="leaderboard-empty">Загрузка...</div>
+  </div>
+  <button class="back-btn" onclick="switchScreen('start-screen')" style="flex-shrink:0;">← Назад</button>
+  <div class="leaderboard-status" id="leaderboard-status"></div>
 </div>
 
 <!-- GAME SCREEN -->
@@ -497,9 +596,10 @@ html, body {
   <!-- Top bar -->
   <div class="game-top-bar">
     <span class="counter" id="counter-display">0 / 999</span>
-    <button class="btn-small" onclick="saveGame()">💾 Сохранить</button>
-    <button class="btn-small" onclick="showGrid()">▦ Вид</button>
-    <button class="btn-small" onclick="goToStart()" style="border-color:rgba(239,68,68,0.3);color:#ef4444;">✕ Выход</button>
+    <button class="btn-small" onclick="saveGame()">�</button>
+    <button class="lb-btn" onclick="showLeaderboard()">🏆</button>
+    <button class="btn-small" id="view-toggle-btn" onclick="toggleView()">� Вид</button>
+    <button class="btn-small" onclick="goToStart()" style="border-color:rgba(239,68,68,0.3);color:#ef4444;">✕</button>
   </div>
 
   <!-- Keyboard view -->
@@ -539,48 +639,24 @@ html, body {
   <div class="grid-view" id="grid-view">
     <div class="grid-full" id="grid-full"></div>
   </div>
-
-  <!-- Bottom bar -->
-  <div class="bottom-bar">
-    <button class="btn-small" onclick="showKeyboard()">⌨ Клавиатура</button>
-    <button class="btn-small" onclick="showGrid()">▦ Сетка</button>
-  </div>
 </div>
 
 <script>
+var LEADERBOARD_URL = 'https://jsonblob.com/api/jsonBlob/019f13f2-366d-7ab2-990f-41ef5b226cfd';
+
 var STATE = {
   found: [],
   startTime: null,
-  currentView: 'keyboard', // 'keyboard' | 'grid'
-  currentHundred: null
+  currentView: 'keyboard',
+  currentHundred: null,
+  playerName: '',
+  lbData: null
 };
 
 var DISPLAY_TIMEOUT = null;
 
 function init() {
-  var saved = localStorage.getItem('plateHunterSave');
-  if (saved) {
-    try {
-      var data = JSON.parse(saved);
-      if (data && data.found && data.found.length > 0) {
-        // has saved game
-      }
-    } catch(e) {}
-  }
-}
-
-function startNewGame() {
-  STATE.found = [];
-  STATE.startTime = Date.now();
-  switchScreen('game-screen');
-  resetDisplay();
-  updateCounter();
-  if (STATE.currentView === 'grid') {
-    renderGridHundreds();
-  }
-}
-
-function continueGame() {
+  STATE.playerName = localStorage.getItem('plateHunterName') || '';
   var saved = localStorage.getItem('plateHunterSave');
   if (saved) {
     try {
@@ -588,21 +664,78 @@ function continueGame() {
       if (data && data.found) {
         STATE.found = data.found;
         STATE.startTime = data.startTime || Date.now();
-        switchScreen('game-screen');
-        resetDisplay();
-        updateCounter();
-        if (STATE.currentView === 'grid') {
-          renderGridHundreds();
-        }
-        return;
       }
     } catch(e) {}
   }
-  alert('Нет сохранённой игры');
+  
+  if (!STATE.playerName) {
+    switchScreen('name-screen');
+  } else {
+    document.getElementById('start-player-name').textContent = '👤 ' + STATE.playerName;
+    switchScreen('start-screen');
+    checkContinueBtn();
+  }
 }
 
-function exitGame() {
-  alert('Спасибо за игру! 🚗');
+function saveNameAndContinue() {
+  var name = document.getElementById('name-input').value.trim();
+  if (!name) {
+    showToast('Введи имя', true);
+    return;
+  }
+  STATE.playerName = name;
+  localStorage.setItem('plateHunterName', name);
+  document.getElementById('start-player-name').textContent = '� ' + name;
+  switchScreen('start-screen');
+  checkContinueBtn();
+}
+
+function changeName() {
+  document.getElementById('name-input').value = STATE.playerName;
+  switchScreen('name-screen');
+}
+
+function checkContinueBtn() {
+  var btn = document.getElementById('btn-continue');
+  if (STATE.found.length > 0) {
+    btn.style.display = '';
+    btn.textContent = 'Продолжить (' + STATE.found.length + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+function startNewGame() {
+  STATE.found = [];
+  STATE.startTime = Date.now();
+  switchScreen('game-screen');
+  showKeyboard();
+  resetDisplay();
+  updateCounter();
+}
+
+function continueGame() {
+  if (STATE.found.length > 0) {
+    switchScreen('game-screen');
+    if (STATE.currentView === 'grid') {
+      showGrid();
+    } else {
+      showKeyboard();
+    }
+    resetDisplay();
+    updateCounter();
+  } else {
+    showToast('Нет сохранённой игры', true);
+  }
+}
+
+// === VIEW TOGGLE (FIXED) ===
+function toggleView() {
+  if (STATE.currentView === 'keyboard') {
+    showGrid();
+  } else {
+    showKeyboard();
+  }
 }
 
 function switchScreen(id) {
@@ -614,6 +747,7 @@ function switchScreen(id) {
 }
 
 function goToStart() {
+  checkContinueBtn();
   switchScreen('start-screen');
 }
 
@@ -623,7 +757,7 @@ function saveGame() {
     startTime: STATE.startTime
   };
   localStorage.setItem('plateHunterSave', JSON.stringify(data));
-  showToast('Сохранено!');
+  showToast('Сохранено! [' + STATE.found.length + ']');
 }
 
 // === KEYBOARD ===
@@ -642,8 +776,6 @@ function pressKey(digit) {
   if (current.length >= 3) return;
   current += digit;
   el.textContent = current.padEnd(3, '_');
-
-  // Clear status while typing
   var st = document.getElementById('display-status');
   st.textContent = '';
   st.className = 'display-status';
@@ -661,20 +793,18 @@ function pressOK() {
   var el = document.getElementById('display-digits');
   var val = el.textContent.replace(/_/g, '');
   if (val.length !== 3) return;
-
   var num = parseInt(val, 10);
+  if (num < 1 || num > 999) { showToast('001–999', true); return; }
   var st = document.getElementById('display-status');
-
   if (STATE.found.indexOf(num) === -1) {
-    // New!
     STATE.found.push(num);
     el.classList.remove('flash-green');
-    void el.offsetWidth; // reflow
+    void el.offsetWidth;
     el.classList.add('flash-green');
     st.textContent = '✓ Новый номер!';
     st.className = 'display-status new';
+    showToast('✓ ' + pad3(num));
   } else {
-    // Already found — remove
     var idx = STATE.found.indexOf(num);
     STATE.found.splice(idx, 1);
     el.classList.remove('flash-red');
@@ -682,15 +812,12 @@ function pressOK() {
     el.classList.add('flash-red');
     st.textContent = '✕ Уже есть';
     st.className = 'display-status exists';
+    showToast('✕ ' + pad3(num), true);
   }
-
   updateCounter();
-
-  // Reset display after delay
+  saveGame();
   if (DISPLAY_TIMEOUT) clearTimeout(DISPLAY_TIMEOUT);
-  DISPLAY_TIMEOUT = setTimeout(function() {
-    resetDisplay();
-  }, 1200);
+  DISPLAY_TIMEOUT = setTimeout(function() { resetDisplay(); }, 1500);
 }
 
 function updateCounter() {
@@ -733,7 +860,6 @@ function renderFullGrid() {
     if (start === 0) start = 1;
     header.textContent = pad3(start) + ' – ' + pad3(end);
     hundred.appendChild(header);
-
     var nums = document.createElement('div');
     nums.className = 'grid-numbers';
     for (var n = start; n <= end; n++) {
@@ -753,87 +879,20 @@ function renderFullGrid() {
   }
 }
 
-function renderGridHundreds() {
-  var container = document.getElementById('grid-hundreds');
-  container.innerHTML = '';
-  for (var h = 0; h < 9; h++) {
-    var block = document.createElement('div');
-    block.className = 'hundred-block';
-    block.onclick = (function(hundred) {
-      return function() { openHundred(hundred); };
-    })(h);
-
-    var label = document.createElement('div');
-    label.className = 'block-label';
-    var start = h * 100 + 1;
-    var end = h * 100 + 99;
-    label.textContent = pad3(start) + '–' + pad3(end);
-
-    var progress = document.createElement('div');
-    progress.className = 'block-progress';
-    var count = countInRange(h * 100 + 1, h * 100 + 99);
-    progress.textContent = count + '/99';
-    if (count === 99) progress.className = 'block-progress complete';
-
-    block.appendChild(label);
-    block.appendChild(progress);
-    container.appendChild(block);
-  }
-}
-
-function countInRange(from, to) {
-  var count = 0;
-  for (var i = 0; i < STATE.found.length; i++) {
-    var n = STATE.found[i];
-    if (n >= from && n <= to) count++;
-  }
-  return count;
-}
-
-function openHundred(h) {
-  STATE.currentHundred = h;
-  document.getElementById('grid-hundreds').style.display = 'none';
-  var detail = document.getElementById('number-detail');
-  detail.classList.add('active');
-
-  var start = h * 100 + 1;
-  var end = h * 100 + 99;
-  document.getElementById('detail-title').textContent = pad3(start) + '–' + pad3(end);
-
-  var grid = document.getElementById('detail-grid');
-  grid.innerHTML = '';
-  for (var n = start; n <= end; n++) {
-    var cell = document.createElement('div');
-    cell.className = 'detail-cell';
-    if (STATE.found.indexOf(n) !== -1) {
-      cell.className += ' found';
-    }
-    cell.textContent = pad3(n);
-    cell.onclick = (function(num, el) {
-      return function() { toggleNumber(num, el); };
-    })(n, cell);
-    grid.appendChild(cell);
-  }
-}
-
-function closeDetail() {
-  document.getElementById('number-detail').classList.remove('active');
-  document.getElementById('grid-hundreds').style.display = 'grid';
-  renderGridHundreds();
-}
-
 function toggleNumber(num, el) {
   var idx = STATE.found.indexOf(num);
   if (idx === -1) {
     STATE.found.push(num);
     el.className = 'grid-num found';
     updateCounter();
+    saveGame();
     showToast('✓ ' + pad3(num));
   } else {
     STATE.found.splice(idx, 1);
     el.className = 'grid-num';
     updateCounter();
-    showToast('✕ ' + pad3(num));
+    saveGame();
+    showToast('✕ ' + pad3(num), true);
   }
 }
 
@@ -843,34 +902,145 @@ function pad3(n) {
   return '' + n;
 }
 
-// === TOAST ===
-function showToast(msg) {
+// === TOAST (NO alert()) ===
+function showToast(msg, isError) {
+  var existing = document.querySelector('.toast');
+  if (existing) existing.remove();
   var toast = document.createElement('div');
-  toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);' +
-    'background:rgba(34,197,94,0.9);color:#fff;padding:12px 24px;border-radius:12px;' +
-    'font-size:14px;font-weight:700;z-index:999;pointer-events:none;' +
-    'animation:popIn 0.3s ease;';
+  toast.className = 'toast';
+  if (isError) toast.className += ' error';
   toast.textContent = msg;
   document.body.appendChild(toast);
   setTimeout(function() {
-    toast.style.opacity = '0';
-    toast.style.transition = 'opacity 0.3s ease';
+    toast.style.animation = 'toastOut 0.3s ease forwards';
     setTimeout(function() { toast.remove(); }, 300);
-  }, 1000);
+  }, 1200);
+}
+
+// === LEADERBOARD ===
+function showLeaderboard() {
+  switchScreen('leaderboard-screen');
+  loadLeaderboard();
+}
+
+function loadLeaderboard() {
+  var list = document.getElementById('leaderboard-list');
+  list.innerHTML = '<div class="leaderboard-empty">Загрузка...</div>';
+  
+  fetch(LEADERBOARD_URL, { method: 'GET' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      STATE.lbData = data;
+      renderLeaderboard(data);
+    })
+    .catch(function() {
+      list.innerHTML = '<div class="leaderboard-empty">Ошибка загрузки.<br>Проверь интернет.</div>';
+    });
+}
+
+function renderLeaderboard(data) {
+  var list = document.getElementById('leaderboard-list');
+  var players = data.players || [];
+  
+  if (players.length === 0) {
+    list.innerHTML = '<div class="leaderboard-empty">Пока никого нет.<br>Будь первым! 🏆</div>';
+    document.getElementById('leaderboard-status').textContent = '';
+    return;
+  }
+  
+  // sort desc
+  players.sort(function(a, b) { return b.count - a.count; });
+  
+  var html = '';
+  for (var i = 0; i < players.length; i++) {
+    var p = players[i];
+    var rankClass = '';
+    var medal = '';
+    if (i === 0) { rankClass = 'gold'; medal = '🥇'; }
+    else if (i === 1) { rankClass = 'silver'; medal = '🥈'; }
+    else if (i === 2) { rankClass = 'bronze'; medal = '🥉'; }
+    else { medal = (i + 1) + '.'; }
+    
+    var isYou = (p.name === STATE.playerName);
+    var rowClass = isYou ? 'leaderboard-row you' : 'leaderboard-row';
+    var highlight = isYou ? ' ← ты' : '';
+    
+    html += '<div class="' + rowClass + '">';
+    html += '<span class="leaderboard-rank ' + rankClass + '">' + medal + '</span>';
+    html += '<span class="leaderboard-name">' + escapeHtml(p.name) + highlight + '</span>';
+    html += '<span class="leaderboard-count">' + p.count + '</span>';
+    html += '</div>';
+  }
+  list.innerHTML = html;
+  
+  document.getElementById('leaderboard-status').textContent = 
+    'Всего игроков: ' + players.length + ' • Обновлено только что';
+}
+
+function submitScore() {
+  if (!STATE.playerName || STATE.found.length === 0) {
+    showToast('Нет результата', true);
+    return;
+  }
+  
+  var lbData = STATE.lbData || { players: [] };
+  var players = lbData.players || [];
+  
+  // find or add
+  var found = false;
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].name === STATE.playerName) {
+      players[i].count = STATE.found.length;
+      players[i].updated = Date.now();
+      found = true;
+      break;
+    }
+  }
+  if (!found) {
+    players.push({
+      name: STATE.playerName,
+      count: STATE.found.length,
+      updated: Date.now()
+    });
+  }
+  
+  lbData.players = players;
+  
+  // PUT back — text/plain avoids CORS preflight
+  fetch(LEADERBOARD_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(lbData)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    STATE.lbData = data;
+    renderLeaderboard(data);
+    showToast('Результат сохранён!');
+  })
+  .catch(function() {
+    showToast('Ошибка отправки', true);
+  });
+}
+
+function escapeHtml(s) {
+  var div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
 }
 
 // === iOS FIX: touch events for buttons ===
 function fixIOSTouch() {
-  var startBtns = document.querySelectorAll('#start-screen .start-btn');
-  for (var i = 0; i < startBtns.length; i++) {
-    startBtns[i].addEventListener('touchend', function(e) {
+  var btns = document.querySelectorAll('button, .key-btn, .grid-num');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('touchend', function(e) {
       e.preventDefault();
       e.target.click();
     }, { passive: false });
-    startBtns[i].addEventListener('touchstart', function(e) {
+    btns[i].addEventListener('touchstart', function(e) {
       e.target.classList.add('touching');
     }, { passive: true });
-    startBtns[i].addEventListener('touchcancel', function(e) {
+    btns[i].addEventListener('touchcancel', function() {
       e.target.classList.remove('touching');
     }, { passive: true });
   }

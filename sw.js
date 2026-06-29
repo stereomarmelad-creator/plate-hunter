@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plate-hunter-v5.2';
+const CACHE_NAME = 'plate-hunter-v6';
 
 const ASSETS = [
   './',
@@ -31,21 +31,38 @@ self.addEventListener('activate', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
+  // Network-first for index.html to always get latest version
+  if (event.request.url.includes('index.html') || event.request.url.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request).then(function(response) {
+        if (response && response.status === 200) {
+          var clone = response.clone();
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, clone);
+          });
+        }
+        return response;
+      }).catch(function() {
+        return caches.match(event.request).then(function(cached) {
+          return cached || caches.match('./index.html');
+        });
+      })
+    );
+    return;
+  }
+  
+  // Cache-first for other assets
   event.respondWith(
     caches.match(event.request).then(function(response) {
-      if (response) {
-        return response;
-      }
+      if (response) return response;
       return fetch(event.request).then(function(networkResponse) {
         if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          var responseToCache = networkResponse.clone();
+          var clone = networkResponse.clone();
           caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, clone);
           });
         }
         return networkResponse;
-      }).catch(function() {
-        return caches.match('./index.html');
       });
     })
   );
