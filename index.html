@@ -73,9 +73,13 @@ html, body {
   cursor: pointer;
   transition: transform 0.1s ease;
   min-height: 56px;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  pointer-events: auto;
 }
 
-.start-btn:active {
+.start-btn:active, .start-btn.touching {
   transform: scale(0.96);
 }
 
@@ -855,8 +859,26 @@ function showToast(msg) {
   }, 1000);
 }
 
+// === iOS FIX: touch events for buttons ===
+function fixIOSTouch() {
+  var startBtns = document.querySelectorAll('#start-screen .start-btn');
+  for (var i = 0; i < startBtns.length; i++) {
+    startBtns[i].addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.target.click();
+    }, { passive: false });
+    startBtns[i].addEventListener('touchstart', function(e) {
+      e.target.classList.add('touching');
+    }, { passive: true });
+    startBtns[i].addEventListener('touchcancel', function(e) {
+      e.target.classList.remove('touching');
+    }, { passive: true });
+  }
+}
+
 // === INIT ===
 init();
+fixIOSTouch();
 
 // Register Service Worker
 if ('serviceWorker' in navigator) {

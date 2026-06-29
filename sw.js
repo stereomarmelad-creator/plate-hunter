@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plate-hunter-v5';
+const CACHE_NAME = 'plate-hunter-v5.2';
 
 const ASSETS = [
   './',
