@@ -373,6 +373,11 @@ html, body {
   background: rgba(168, 85, 247, 0.35);
 }
 
+.key-btn.released {
+  transform: scale(1);
+  background: rgba(42, 42, 74, 0.85);
+}
+
 .key-btn.ok-btn {
   background: linear-gradient(135deg, #22c55e, #16a34a);
   color: #fff;
@@ -597,7 +602,8 @@ html, body {
   <!-- Top bar -->
   <div class="game-top-bar">
     <span class="counter" id="counter-display">0 / 999</span>
-    <button class="btn-small" onclick="saveGame()">�</button>
+    <button class="btn-small" id="mute-btn" onclick="toggleMute()">🔊</button>
+        <button class="btn-small" onclick="saveGame()">💾</button>
     <button class="lb-btn" onclick="showLeaderboard()">🏆</button>
     <button class="btn-small" id="view-toggle-btn" onclick="toggleView()">� Вид</button>
     <button class="btn-small" onclick="goToStart()" style="border-color:rgba(239,68,68,0.3);color:#ef4444;">✕</button>
@@ -772,6 +778,7 @@ function resetDisplay() {
 }
 
 function pressKey(digit) {
+  playKeyClick();
   var el = document.getElementById('display-digits');
   var current = el.textContent.replace(/_/g, '');
   if (current.length >= 3) return;
@@ -783,6 +790,7 @@ function pressKey(digit) {
 }
 
 function pressBackspace() {
+  playKeyClick();
   var el = document.getElementById('display-digits');
   var current = el.textContent.replace(/_/g, '');
   if (current.length === 0) return;
@@ -799,6 +807,7 @@ function pressOK() {
   var st = document.getElementById('display-status');
   if (STATE.found.indexOf(num) === -1) {
     STATE.found.push(num);
+    playNewSound();
     el.classList.remove('flash-green');
     void el.offsetWidth;
     el.classList.add('flash-green');
@@ -808,6 +817,7 @@ function pressOK() {
   } else {
     var idx = STATE.found.indexOf(num);
     STATE.found.splice(idx, 1);
+    playDuplicateSound();
     el.classList.remove('flash-red');
     void el.offsetWidth;
     el.classList.add('flash-red');
@@ -1038,18 +1048,91 @@ function escapeHtml(s) {
   return div.innerHTML;
 }
 
+// === SOUND SYSTEM ===
+var AudioCtx = window.AudioContext || window.webkitAudioContext;
+var audioCtx = null;
+var soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    try { audioCtx = new AudioCtx(); } catch(e) {}
+  }
+}
+
+function playKeyClick() {
+  if (!soundEnabled || !audioCtx) return;
+  try {
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = 800 + Math.random() * 200;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.08);
+  } catch(e) {}
+}
+
+function playNewSound() {
+  if (!soundEnabled || !audioCtx) return;
+  try {
+    [523, 659, 784].forEach(function(freq, i) {
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.frequency.value = freq;
+      osc.type = 'sine';
+      var t = audioCtx.currentTime + i * 0.12;
+      gain.gain.setValueAtTime(0.1, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+      osc.start(t);
+      osc.stop(t + 0.2);
+    });
+  } catch(e) {}
+}
+
+function playDuplicateSound() {
+  if (!soundEnabled || !audioCtx) return;
+  try {
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = 200;
+    osc.type = 'sawtooth';
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+  } catch(e) {}
+}
+
+function toggleMute() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('mute-btn').textContent = soundEnabled ? '🔊' : '🔇';
+  localStorage.setItem('plateHunterSound', soundEnabled ? 'on' : 'off');
+}
+
 // === iOS FIX: touch events for buttons ===
 function fixIOSTouch() {
+  initAudio();
+  soundEnabled = localStorage.getItem('plateHunterSound') !== 'off';
+  document.getElementById('mute-btn').textContent = soundEnabled ? '🔊' : '🔇';
+  
   var btns = document.querySelectorAll('button, .key-btn, .grid-num');
   for (var i = 0; i < btns.length; i++) {
     btns[i].addEventListener('touchend', function(e) {
       e.preventDefault();
+      e.target.classList.remove('touching');
       e.target.click();
     }, { passive: false });
     btns[i].addEventListener('touchstart', function(e) {
       e.target.classList.add('touching');
     }, { passive: true });
-    btns[i].addEventListener('touchcancel', function() {
+    btns[i].addEventListener('touchcancel', function(e) {
       e.target.classList.remove('touching');
     }, { passive: true });
   }
