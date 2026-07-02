@@ -649,7 +649,7 @@ html, body {
 </div>
 
 <script>
-var LEADERBOARD_URL = 'https://jsonblob.com/api/jsonBlob/019f13f2-366d-7ab2-990f-41ef5b226cfd';
+var LEADERBOARD_URL = 'https://jsonblob.com/api/jsonBlob/019f227d-5d52-721b-adab-f7a66362fd98';
 
 var STATE = {
   found: [],
@@ -940,7 +940,10 @@ function loadLeaderboard() {
   list.innerHTML = '<div class="leaderboard-empty">Загрузка...</div>';
   
   fetch(LEADERBOARD_URL, { method: 'GET' })
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      if (!r.ok) { throw new Error('not found'); }
+      return r.json();
+    })
     .then(function(data) {
       if (!data) data = { players: [] };
       STATE.lbData = data;
