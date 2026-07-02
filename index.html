@@ -649,7 +649,7 @@ html, body {
 </div>
 
 <script>
-var LEADERBOARD_URL = 'https://jsonblob.com/api/jsonBlob/019f227d-5d52-721b-adab-f7a66362fd98';
+var LEADERBOARD_URL = 'https://ispay-voda-bot.onrender.com/api/leaderboard';
 
 var STATE = {
   found: [],
@@ -1025,13 +1025,11 @@ function submitScore() {
     });
   }
   
-  lbData.players = players;
-  
-  // PUT back — text/plain avoids CORS preflight
+  // POST to our API
   fetch(LEADERBOARD_URL, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(lbData)
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: STATE.playerName, count: STATE.found.length })
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
