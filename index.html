@@ -779,6 +779,7 @@ function resetDisplay() {
 
 function pressKey(digit) {
   playKeyClick();
+  if (DISPLAY_TIMEOUT) { clearTimeout(DISPLAY_TIMEOUT); DISPLAY_TIMEOUT = null; }
   var el = document.getElementById('display-digits');
   var current = el.textContent.replace(/_/g, '');
   if (current.length >= 3) return;
@@ -826,7 +827,7 @@ function pressOK() {
   updateCounter();
   saveGame();
   if (DISPLAY_TIMEOUT) clearTimeout(DISPLAY_TIMEOUT);
-  DISPLAY_TIMEOUT = setTimeout(function() { resetDisplay(); }, 1500);
+  DISPLAY_TIMEOUT = setTimeout(function() { resetDisplay(); }, 300);
 }
 
 function updateCounter() {
@@ -1050,53 +1051,15 @@ function escapeHtml(s) {
 var AudioCtx = window.AudioContext || window.webkitAudioContext;
 var audioCtx = null;
 var soundEnabled = true;
-var soundMode = 'synth'; // 'synth' or 'file'
-var clickFiles = ['click1.mp3', 'click2.mp3', 'click3.mp3'];
-var soundCache = {};
-var clickIdx = 0;
 
 function initAudio() {
   if (!audioCtx) {
     try { audioCtx = new AudioCtx(); } catch(e) {}
   }
-  soundMode = localStorage.getItem('plateHunterSoundMode') || 'synth';
   soundEnabled = localStorage.getItem('plateHunterSound') !== 'off';
-  if (document.getElementById('mute-btn')) {
-    document.getElementById('mute-btn').textContent = soundEnabled ? (soundMode === 'file' ? '🎵' : '🔊') : '🔇';
-  }
-  // Preload MP3 files
-  if (soundMode === 'file') {
-    ['new.mp3', 'dup.mp3'].concat(clickFiles).forEach(function(f) {
-      var a = new Audio();
-      a.preload = 'auto';
-      a.src = f;
-      soundCache[f] = a;
-    });
-  }
-}
-
-function playSoundMP3(file) {
-  if (!soundEnabled || soundMode !== 'file') return;
-  try {
-    var a = soundCache[file];
-    if (a) {
-      a.currentTime = 0;
-      a.play().catch(function(){});
-    } else {
-      var tmp = new Audio();
-      tmp.src = file;
-      tmp.volume = 0.5;
-      tmp.play().catch(function(){});
-    }
-  } catch(e) {}
 }
 
 function playKeyClick() {
-  if (soundMode === 'file') {
-    playSoundMP3(clickFiles[clickIdx % 3]);
-    clickIdx++;
-    return;
-  }
   if (!soundEnabled || !audioCtx) return;
   try {
     var osc = audioCtx.createOscillator();
@@ -1113,7 +1076,6 @@ function playKeyClick() {
 }
 
 function playNewSound() {
-  if (soundMode === 'file') { playSoundMP3('new.mp3'); return; }
   if (!soundEnabled || !audioCtx) return;
   try {
     [523, 659, 784].forEach(function(freq, i) {
@@ -1133,7 +1095,6 @@ function playNewSound() {
 }
 
 function playDuplicateSound() {
-  if (soundMode === 'file') { playSoundMP3('dup.mp3'); return; }
   if (!soundEnabled || !audioCtx) return;
   try {
     var osc = audioCtx.createOscillator();
@@ -1149,36 +1110,10 @@ function playDuplicateSound() {
   } catch(e) {}
 }
 
-function toggleSoundMode() {
-  if (soundMode === 'synth') {
-    soundMode = 'file';
-  } else {
-    soundMode = 'synth';
-  }
-  localStorage.setItem('plateHunterSoundMode', soundMode);
-  if (soundMode === 'file') {
-    initAudio(); // preload
-  }
-  var btn = document.getElementById('mute-btn');
-  btn.textContent = soundEnabled ? (soundMode === 'file' ? '🎵' : '🔊') : '🔇';
-  showToast('Звук: ' + (soundMode === 'file' ? 'файлы' : 'синтез'));
-}
-
 function toggleMute() {
-  // Цикл: синтез 🔊 → файлы 🎵 → выкл 🔇 → синтез 🔊 ...
-  if (soundMode === 'synth' && soundEnabled) {
-    soundMode = 'file';
-  } else if (soundMode === 'file' && soundEnabled) {
-    soundEnabled = false;
-  } else {
-    soundEnabled = true;
-    soundMode = 'synth';
-  }
+  soundEnabled = !soundEnabled;
+  document.getElementById('mute-btn').textContent = soundEnabled ? '🔊' : '🔇';
   localStorage.setItem('plateHunterSound', soundEnabled ? 'on' : 'off');
-  localStorage.setItem('plateHunterSoundMode', soundMode);
-  if (soundMode === 'file') initAudio();
-  var btn = document.getElementById('mute-btn');
-  btn.textContent = soundEnabled ? (soundMode === 'file' ? '🎵' : '🔊') : '🔇';
 }
 
 // === iOS FIX: touch events for buttons ===
